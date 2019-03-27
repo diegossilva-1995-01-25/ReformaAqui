@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <link type="text/css" rel="stylesheet" href="../html/css/estilo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>Orçamento Público</title>
+  </head>
+
+  <body>
+
+    <div class="cornerDiv">
+      <label class="welcome">Seja bem vindo, Fulano de Tal (Autônomo/Cliente)! </label>
+      <a class="welcome" href="../cliente">Alterar seus dados </a>
+      <a class="welcome" href="../main">Sair do Sistema</a>
+    </div>
+
+    <h1> Solicite um Orçamento (Público) </h1>
+
+    <div class="formDiv">
+
+      <form>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Tipo do Serviço </label> </td>
+
+          <td>
+            <select name="tipoServico">
+              <option value="none">Selecione o Tipo</option>
+              <option value="pedreiro">Pedreiro</option>
+              <option value="carpinteiro">Carpinteiro</option>
+              <option value="encanador">Encanador</option>
+              <option value="eletricista">Eletricista</option>
+              <option value="pintor">pintor</option>
+            </select>
+          </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Descrição do Serviço </label> </td> <td> <textarea name="descricaoServico" maxlength="255"></textarea> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <input class="button" type="submit" name="enviar" value="Enviar"> </td>
+
+        </tr>
+
+      </form>
+
+    </div>
+
+  </body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <link type="text/css" rel="stylesheet" href="../html/css/estilo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+
+    <script type="text/javascript">
+
+      $(document).ready(function(){
+
+        $("input[type='radio']").click(function(){
+
+          var botaoRadio = $("input[name='tipoLogin']:checked").val();
+
+          if (botaoRadio == 'autonomo'){
+            $('#formLogin').load("../html/TelaLoginAutonomo.html");
+          } else {
+            $('#formLogin').load("../html/TelaLoginCliente.html");
+          }
+        });
+
+      });
+
+    </script>
+
+    <title>Login</title>
+  </head>
+
+  <body>
+
+    <h1> Faça seu Login </h1>
+
+    <div class="formDiv">
+
+      <form>
+
+        <tr>
+
+          <label class="stars">
+            <td> <input type="radio" name="tipoLogin" value="cliente" /> </td>
+            <td> <span class="nomeCampo"> Cliente </span> </td>
+          </label>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <label class="stars">
+            <td> <input type="radio" name="tipoLogin" value="autonomo" /> </td>
+            <td> <span class="nomeCampo"> Autônomo </span> </td>
+          </label>
+
+        </tr>
+
+      </form>
+
+    </div>
+
+    <br>
+    <br>
+
+    <div id="formLogin" class="">
+
+    </div>
+
+  </body>
+
+</html>

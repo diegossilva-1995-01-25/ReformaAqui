@@ -1,0 +1,17 @@
+{
+  "name": "reformaAqui",
+  "version": "1.0.0",
+  "description": "Aplicação para facilitar o encontro e indicação de trabalhadores autônomos para pequenos reparos na Construção Civil.",
+  "main": "index.js",
+  "author": "Diego de Jesus Gregorio, Diego Souza Silva, Gustavo Henrique de Freitas",
+  "license": "MIT",
+  "proxy": "http://localhost:5000/",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "html": "^1.0.0",
+    "mysql": "^2.16.0",
+    "nodemailer": "^5.1.1",
+    "serve-static": "^1.13.2"
+  }
+}

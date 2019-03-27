@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <link type="text/css" rel="stylesheet" href="../html/css/estilo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>Cadastro de Cliente</title>
+  </head>
+
+  <body>
+
+    <div class="cornerDiv">
+      <label class="welcome">Seja bem vindo, Fulano de Tal (Autônomo/Cliente)! </label>
+      <a class="welcome" href="../cliente">Alterar seus dados </a>
+      <a class="welcome" href="../main">Sair do Sistema</a>
+    </div>
+
+    <h1> Cadastro de Novo Cliente </h1>
+
+    <div class="formDiv">
+
+      <form action="/cliente" method="post">
+
+        <tr>
+
+          <td> <label class="nomeCampo"> CPF </label> </td> <td> <input type="number" name="cpf" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> E-mail </label> </td> <td> <input type="email" name="email" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Nome Completo </label> </td> <td> <input type="text" name="nome" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Endereço </label> </td> <td> <input type="text" name="endereco" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Bairro (Subprefeitura) </label> </td>
+
+          <td>
+            <select name="bairro" required>
+              <option value="none">Selecione o Bairro</option>
+              <option value="ermelinoMatarazzo">Ermelino Matarazzo</option>
+              <option value="itaquera">Itaquera</option>
+              <option value="penha">Penha</option>
+              <option value="saoMateus">São Mateus</option>
+              <option value="cidadeTiradentes">Cidade Tiradentes</option>
+              <option value="itaimPaulista">Itaim Paulista</option>
+              <option value="guaianases">Guaianases</option>
+              <option value="saoMiguelPaulista">São Miguel Paulista</option>
+            </select>
+          </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Telefone </label> </td> <td> <input type="text" name="telefone" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Celular </label> </td> <td> <input type="text" name="celular" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Senha </label> </td> <td> <input type="password" name="senha" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Confirmar Senha </label> </td> <td> <input type="password" name="confirmarSenha" required/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <input class="button" type="submit" name="enviar" value="Enviar"> </td>
+
+        </tr>
+
+      </form>
+
+    </div>
+
+  </body>
+
+</html>
