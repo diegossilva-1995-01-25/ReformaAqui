@@ -13,7 +13,7 @@ var historico = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(historico.descricao + " em formato Obj JSON");
     sql.criarHistorico(historico);
   },
 
@@ -21,13 +21,23 @@ var historico = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(historico.descricao + " em formato Obj JSON");
     sql.editarHistorico(historico);
   },
 
   visualizar: function (entradaJSON) {
-    console.log(this.cpf);
-    return this;
+    var aux;
+    console.log("Encontrado " + entradaJSON);
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(dadosJSON.descricao + " em formato Obj JSON");
+
+    sql.consultarClienteEmail(historico, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(historico);
+      cookie = JSON.parse(aux);
+    });
   }
 
 };

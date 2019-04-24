@@ -18,6 +18,9 @@ function callEntity(verb, name, dadosEntrantes) {
   } else if (verb == "PUT") {
     modelo.editar(dadosEntrantes);
 
+  } else if (verb == "DELETE") {
+    modelo.excluir(dadosEntrantes);
+
   }
 
 }

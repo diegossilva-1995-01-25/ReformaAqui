@@ -11,25 +11,39 @@ var foto = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(foto.imagem + " em formato Obj JSON");
     sql.criarFoto(foto);
   },
 
   editar: function (entradaJSON) {
-    console.log('Criado! ' + entradaJSON);
+    console.log('Editado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(foto.imagem + " em formato Obj JSON");
     sql.editarFoto(foto);
   },
 
   visualizar: function (entradaJSON) {
-    console.log(this.cpf);
-    return this;
+    var aux;
+    console.log("Encontrado " + entradaJSON);
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(dadosJSON.imagem + " em formato Obj JSON");
+
+    sql.consultarClienteEmail(foto, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(foto);
+      cookie = JSON.parse(aux);
+    });
   },
 
   excluir: function (entradaJSON) {
-
+    console.log('Deletado! ' + entradaJSON);
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    preencher(dadosJSON);
+    console.log(foto.imagem + " em formato Obj JSON");
+    sql.excluirFoto(foto);
   }
 
 };

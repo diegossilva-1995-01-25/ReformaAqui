@@ -20,6 +20,9 @@ function pegarMetodoHttp(verbo, dadosEntrantes) {
   } else if (verbo == 'GET' || verbo == 'get') {
     pegarGET();
 
+  } else if (verbo == 'DELETE' || verbo == 'delete') {
+    pegarDELETE();
+
   }
 
   models.callEntity(metodo, nomeEntidade, dadosJSON);
@@ -36,6 +39,10 @@ function pegarPUT() {
 
 function pegarGET() {
   metodo = 'GET';
+}
+
+function pegarDELETE() {
+  metodo = 'DELETE';
 }
 
 module.exports.pegarMetodoHttp = pegarMetodoHttp;

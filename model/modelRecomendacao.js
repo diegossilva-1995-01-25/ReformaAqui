@@ -11,7 +11,7 @@ var recomendacao = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(recomendacao.funcao + " em formato Obj JSON");
     sql.criarRecomendacao(recomendacao);
   },
 
@@ -19,13 +19,24 @@ var recomendacao = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(recomendacao.funcao + " em formato Obj JSON");
     sql.editarRecomendacao(recomendacao);
   },
 
   visualizar: function (entradaJSON) {
-    console.log(this.cpf);
-    return this;
+    var aux;
+    console.log("Encontrado " + entradaJSON);
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(recomendacao.funcao + " em formato Obj JSON");
+
+    sql.consultarClienteEmail(recomendacao, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(recomendacao);
+      cookie = JSON.parse(aux);
+    });
+
   },
 
 };

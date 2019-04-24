@@ -30,14 +30,23 @@ var cliente = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
     console.log(cliente.nome + " em formato Obj JSON");
-    // sql.editarCliente(cliente);
+    sql.editarCliente(cliente);
   },
 
   visualizar: function (entradaJSON) {
+    var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
-    return this;
+
+    sql.consultarClienteEmail(cliente, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(cliente);
+      cookie = JSON.parse(aux);
+    });
+
   },
 
   fazerLogin: function (entradaJSON) {

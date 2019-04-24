@@ -11,7 +11,7 @@ var avaliacao = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(avaliacao.descricao + " em formato Obj JSON");
     sql.criarAvaliacao(avaliacao);
   },
 
@@ -19,13 +19,24 @@ var avaliacao = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(avaliacao.descricao + " em formato Obj JSON");
     sql.editarAvaliacao(avaliacao);
   },
 
   visualizar: function (entradaJSON) {
-    console.log(this.cpf);
-    return this;
+    var aux;
+    console.log("Encontrado " + entradaJSON);
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(dadosJSON.nome + " em formato Obj JSON");
+
+    sql.consultarClienteEmail(avaliacao, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(avaliacao);
+      cookie = JSON.parse(aux);
+    });
+
   }
 
 };

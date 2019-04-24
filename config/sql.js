@@ -401,6 +401,26 @@ var crud = {
 
   },
 
+  excluirFoto: function (dadosDeEntrada) {
+
+    pool.getConnection(function(err, con) {
+      if (err) throw err; // not connected!
+
+      comando = "DELETE FROM foto WHERE `idFoto` = " + con.escape(dadosDeEntrada.idFoto);
+
+      con.query(comando, function (error, results, fields) {
+        if (error) throw error;
+        console.log("Foto deletada!");
+        con.release();
+
+        // Handle error after the release.
+        if (error) throw error;
+      });
+
+    });
+
+  },
+
   consultarFotos: function () {
 
     pool.getConnection(function(err, con) {

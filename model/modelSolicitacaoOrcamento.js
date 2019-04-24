@@ -13,25 +13,40 @@ var solicitacaoOrcamento = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(solicitacaoOrcamento.tipo + " em formato Obj JSON");
     sql.criarSolicitacaoOrcamento(solicitacaoOrcamento);
+    //enviar(entradaJSON);
   },
 
   enviar: function (entradaJSON) {
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    preencher(dadosJSON);
+    console.log('Sendo enviado! ' + entradaJSON);
 
+    // Usar nodemailer aqui
   },
 
   editar: function (entradaJSON) {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(solicitacaoOrcamento.tipo + " em formato Obj JSON");
     sql.editarSolicitacaoOrcamento(solicitacaoOrcamento);
   },
 
   visualizar: function (entradaJSON) {
-    console.log(this.cpf);
-    return this;
+    var aux;
+    console.log("Encontrado " + entradaJSON);
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(dadosJSON.nome + " em formato Obj JSON");
+
+    sql.consultarClienteEmail(solicitacaoOrcamento, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(cliente);
+      cookie = JSON.parse(aux);
+    });
   }
 
 };

@@ -17,25 +17,42 @@ var orcamento = {
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
+    console.log(orcamento.tipo + " em formato Obj JSON");
     sql.criarOrcamento(orcamento);
+    //enviar(entradaJSON);
   },
 
   enviar: function (entradaJSON) {
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    preencher(dadosJSON);
+    console.log('Sendo enviado! ' + entradaJSON);
+
+    // Usar nodemailer aqui
 
   },
 
   visualizar: function (entradaJSON) {
-    console.log(this.cpf);
-    return this;
+    var aux;
+    console.log("Encontrado " + entradaJSON);
+    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(dadosJSON.tipo + " em formato Obj JSON");
+
+    sql.consultarClienteEmail(orcamento, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(orcamento);
+      cookie = JSON.parse(aux);
+    });
+
   },
 
   aceitar: function (entradaJSON) {
-
+    // Altera para pôr status como aceito
   },
 
   comparar: function (entradaJSON) {
-
+    // Query de todos os orçamentos para aquele idSolicitacao
   },
 
   editar: function (entradaJSON) {

@@ -32,22 +32,41 @@ var autonomo = {
   },
 
   visualizar: function (entradaJSON) {
+    var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    preencher(dadosJSON);
-    console.log(autonomo.nome + " em formato Obj JSON");
-    return this;
+    console.log(dadosJSON.nome + " em formato Obj JSON");
+
+    sql.consultarClienteEmail(autonomo, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(autonomo);
+      cookie = JSON.parse(aux);
+    });
+
   },
 
   fazerLogin: function (entradaJSON) {
+    var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencherLogin(dadosJSON);
-    console.log(dadosJSON.email + " em formato Obj JSON");
-    console.log(autonomo.email + " logado!");
-    dadosJSON = sql.consultarAutonomoCPFeEmail(autonomo);
-    console.log(JSON.stringify(dadosJSON));
-    return autonomo;
+    sql.consultarAutonomoCPFeEmail(autonomo, function (retorno) {
+      aux = retorno;
+      dadosJSON = JSON.parse(aux);
+      preencher(dadosJSON);
+      aux = JSON.stringify(autonomo);
+      cookie = JSON.parse(aux);
+      console.log("Oi");
+      redirec.route('/', function (req, res, next, id) {
+        console.log(res.cookie('email', cookie.email));
+        console.log(res.cookie('nome', cookie.nome));
+        res.redirect('/');
+
+      });
+
+    }); // Faça um callback aqui
   }
 
 };
