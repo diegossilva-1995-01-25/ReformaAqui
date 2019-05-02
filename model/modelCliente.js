@@ -1,10 +1,12 @@
 const expr = require('express');
 const applic = expr();
-const redirec = expr.Router();
+// Tenta da forma de redirect do routes.js
 
 var dadosJSON = JSON.stringify("{}");
 const sql = require('../config/sql');
-var cookie = JSON.parse("{}");
+var cookieNome = '';
+var cookieEmail = '';
+var cookieCPF = '';
 
 var cliente = {
   cpf:             0,
@@ -39,36 +41,59 @@ var cliente = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(cliente, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(cliente);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarClienteEmail(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    
 
   },
 
-  fazerLogin: function (entradaJSON) {
+  fazerLogin: async function (entradaJSON) {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    preencherLogin(dadosJSON);
-    sql.consultarClienteEmail(cliente, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(cliente);
-      cookie = JSON.parse(aux);
-      console.log("Oi");
-      redirec.route('/', function (req, res, next, id) {
-        console.log(res.cookie('email', cookie.email));
-        console.log(res.cookie('nome', cookie.nome));
-        res.redirect('/');
+    aux = await sql.consultarClienteEmail(dadosJSON); //, function (retorno) {
 
-      });
+    console.log("Aux: " + aux); // 1
 
-    }); // Faça um callback aqui
+    aux = JSON.parse(aux);
+
+    console.log(dadosJSON.senha + " e " + aux.senha);
+
+    if(dadosJSON.senha == aux.senha) {
+      preencher(aux);
+
+      console.log("Logado: " + cliente.nome);
+
+
+
+    } else {
+      console.log("Senha incorreta!");
+    }
+
+      // dadosJSON = JSON.parse(aux);
+
+      // if(entradaJSON)
+      // aux = JSON.stringify(cliente);
+
+      // redirec.route('/', function (req, res, next, id) {
+      //   // Está vazio o cookie
+      //   console.log(res.cookie('email', cookie.email));
+      //   console.log(res.cookie('nome', cookie.nome));
+      //   res.redirect('/');
+      //
+      // });
+
+    //}); // Faça um callback aqui
+
+    applic.post("/login/cliente", function (req, res) {
+      //usarEstaticos();
+      var caminho = path.join(__dirname + '/../html/index.html');
+      console.log(caminho);
+    });
 
   }
 

@@ -27,15 +27,16 @@ var foto = {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    console.log(dadosJSON.imagem + " em formato Obj JSON");
+    console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(foto, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(foto);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarFoto(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    preencher(aux);
+
   },
 
   excluir: function (entradaJSON) {

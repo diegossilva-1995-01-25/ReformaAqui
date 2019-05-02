@@ -95,71 +95,97 @@ var crud = {
 
   consultarAutonomo: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM autonomo WHERE cpf = "  + con.escape(dadosDeEntrada.cpf);
+    return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) return reject(err); // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Autônomo consultado!");
-        con.release();
+        comando = "SELECT * FROM autonomo WHERE cpf = "  + con.escape(dadosDeEntrada.cpf);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Autônomo consultado!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
+
 
   },
 
   consultarAutonomoCPFeEmail: function (dadosDeEntrada) {
 
-    var resultSet;
+    var resultSet = JSON.stringify("{}");
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) return reject(err); // not connected!
 
-      comando = "SELECT * FROM autonomo WHERE cpf = "  + con.escape(dadosDeEntrada.cpf) +
-        " AND email = " + con.escape(dadosDeEntrada.email);
+        comando = "SELECT * FROM autonomo WHERE cpf = "  + con.escape(dadosDeEntrada.cpf) +
+          " AND email = " + con.escape(dadosDeEntrada.email);
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Autônomo consultado!");
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Autônomo consultado!");
 
-        if (results.length) {
-          resultSet = results[0];
-          console.log(resultSet);
-        }
-        con.release();
+          if (results.length) {
+            resultSet = results[0];
+            console.log(resultSet);
+          }
+          con.release();
 
-        // Handle error after the release.
-        if (error) throw error;
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
-    return resultSet;
+
 
   },
 
   consultarAutonomos: function () {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM autonomo";
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) return reject(err); // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Todos os autônomos!");
-        con.release();
+        comando = "SELECT * FROM autonomo";
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Todos os autônomos!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          // Handle error after the release.
+          if (error) throw error;
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
+
+
 
   },
 
@@ -209,40 +235,58 @@ var crud = {
 
   consultarAvaliacao: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM avaliacao WHERE `idAvaliacao` = " + con.escape(dadosDeEntrada.idAvaliacao);
+    return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) return reject(err); // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Avaliação consultada!");
-        con.release();
+        comando = "SELECT * FROM avaliacao WHERE `idAvaliacao` = " + con.escape(dadosDeEntrada.idAvaliacao);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Avaliação consultada!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
 
   consultarAvaliacoes: function () {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM avaliacao";
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Todas as avaliações!");
-        con.release();
+        comando = "SELECT * FROM avaliacao";
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Todas as avaliações!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
@@ -296,48 +340,62 @@ var crud = {
 
   consultarCliente: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM cliente WHERE cpf = " + con.escape(dadosDeEntrada.cpf);
+    return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) return reject(err); // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Cliente consultado!");
-        con.release();
+        comando = "SELECT * FROM cliente WHERE cpf = " + con.escape(dadosDeEntrada.cpf);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
 
-  consultarClienteEmail: function (dadosDeEntrada, callback) {
+  consultarClienteEmail: async function (dadosDeEntrada) { //, callback) {
 
     var resultSet = JSON.stringify("{}");
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    return new Promise((resolve, reject) => {
+
+      pool.getConnection(function(err, con) {
+      if (err) return reject(err); // not connected!
 
       comando = "SELECT * FROM cliente WHERE email = " + con.escape(dadosDeEntrada.email);
 
       // Problema aqui, por que o callback não preenche o resultSet?
       con.query(comando, function (error, results, fields) {
-        if (error) throw error;
+        if (error) return reject(error);
         // console.log("Cliente consultado!");
         if (results.length) {
           resultSet = JSON.stringify(results[0]);
         }
+
+        console.log("Do SQL:" + resultSet); // 3
+
         con.release();
-        return callback(resultSet);
+
+        console.log("Do ResultSet Retornado: " + resultSet); // 2
+        return resolve(resultSet);
 
       });
-
     });
-
-  },
+  });
+},
 
   criarFoto: function (dadosDeEntrada) {
 
@@ -383,20 +441,29 @@ var crud = {
 
   consultarFoto: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM foto WHERE `idFoto` = " + con.escape(dadosDeEntrada.idFoto);
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) return reject(err); // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Foto consultada!");
-        con.release();
+        comando = "SELECT * FROM foto WHERE `idFoto` = " + con.escape(dadosDeEntrada.idFoto);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Foto consultada!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
@@ -423,20 +490,29 @@ var crud = {
 
   consultarFotos: function () {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM foto";
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Todas as fotos!");
-        con.release();
+        comando = "SELECT * FROM foto";
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Todas as fotos!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
@@ -489,40 +565,60 @@ var crud = {
 
   consultarHistorico: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM historico WHERE `idHistorico` = " + con.escape(dadosDeEntrada.idHistorico);
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) return reject(err); // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Histórico consultado!");
-        con.release();
+        comando = "SELECT * FROM historico WHERE `idHistorico` = " + con.escape(dadosDeEntrada.idHistorico);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Histórico consultado!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
+
+
 
   },
 
   consultarHistoricos: function () {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM historico";
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Todos os históricos!");
-        con.release();
+        comando = "SELECT * FROM historico";
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Todos os históricos!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
@@ -576,40 +672,58 @@ var crud = {
 
   consultarOrcamento: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM orcamento WHERE `idOrcamento` = " + con.escape(dadosDeEntrada.idOrcamento);
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Orçamento consultado!");
-        con.release();
+        comando = "SELECT * FROM orcamento WHERE `idOrcamento` = " + con.escape(dadosDeEntrada.idOrcamento);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Orçamento consultado!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
 
   consultarOrcamentos: function () {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM orcamento";
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Todos os orçamentos!");
-        con.release();
+        comando = "SELECT * FROM orcamento";
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Todos os orçamentos!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
@@ -660,40 +774,58 @@ var crud = {
 
   consultarRecomendacao: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM recomendacao WHERE `idRecomendacao` = " + con.escape(dadosDeEntrada.idRecomendacao);
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Recomendação consultada!");
-        con.release();
+        comando = "SELECT * FROM recomendacao WHERE `idRecomendacao` = " + con.escape(dadosDeEntrada.idRecomendacao);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Recomendação consultada!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
 
   consultarRecomendacoes: function () {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM recomendacao";
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Todas as recomendações!");
-        con.release();
+        comando = "SELECT * FROM recomendacao";
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Todas as recomendações!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
@@ -743,45 +875,66 @@ var crud = {
 
   consultarSolicitacaoOrcamento: function (dadosDeEntrada) {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM solicitacaoOrcamento WHERE `idSolicitacao` = " + con.escape(dadosDeEntrada.idSolicitacao);
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Solicitação consultada!");
-        con.release();
+        comando = "SELECT * FROM solicitacaoOrcamento WHERE `idSolicitacao` = " + con.escape(dadosDeEntrada.idSolicitacao);
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Solicitação consultada!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
   },
 
   consultarSolicitacoesOrcamentos: function () {
 
-    pool.getConnection(function(err, con) {
-      if (err) throw err; // not connected!
+    var resultSet = JSON.stringify("{}");
 
-      comando = "SELECT * FROM solicitacaoOrcamento";
+	  return new Promise((resolve, reject) => {
+      pool.getConnection(function(err, con) {
+        if (err) throw err; // not connected!
 
-      con.query(comando, function (error, results, fields) {
-        if (error) throw error;
-        console.log("Todas as solicitações!");
-        con.release();
+        comando = "SELECT * FROM solicitacaoOrcamento";
 
-        // Handle error after the release.
-        if (error) throw error;
+        con.query(comando, function (error, results, fields) {
+          if (error) throw error;
+          console.log("Todas as solicitações!");
+
+          if (results.length) {
+            resultSet = JSON.stringify(results[0]);
+          }
+
+          con.release();
+
+          return resolve(resultSet);
+
+        });
+
       });
-
     });
 
-  },
+  }
 
 };
 
 // module.exports = pool;
 module.exports = crud;
+
+// Ao invés de if, nos que tem resultSet com n linhas, faça laço de repetição e push em vetor
+// E dê um jeito de chamar no html de tela

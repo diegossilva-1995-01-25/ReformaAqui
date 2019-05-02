@@ -27,15 +27,15 @@ var recomendacao = {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    console.log(recomendacao.funcao + " em formato Obj JSON");
+    console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(recomendacao, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(recomendacao);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarRecomendacao(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    preencher(aux);
 
   },
 

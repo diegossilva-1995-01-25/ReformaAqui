@@ -29,13 +29,13 @@ var avaliacao = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(avaliacao, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(avaliacao);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarAvaliacao(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    preencher(aux);
 
   }
 

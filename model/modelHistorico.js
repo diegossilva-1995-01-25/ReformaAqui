@@ -29,15 +29,16 @@ var historico = {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    console.log(dadosJSON.descricao + " em formato Obj JSON");
+    console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(historico, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(historico);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarHistorico(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    preencher(aux);
+
   }
 
 };

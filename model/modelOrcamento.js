@@ -35,15 +35,15 @@ var orcamento = {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    console.log(dadosJSON.tipo + " em formato Obj JSON");
+    console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(orcamento, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(orcamento);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarOrcamento(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    preencher(aux);
 
   },
 

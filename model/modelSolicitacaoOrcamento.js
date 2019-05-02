@@ -40,13 +40,14 @@ var solicitacaoOrcamento = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(solicitacaoOrcamento, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(cliente);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarSolicitacaoOrcamento(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    preencher(aux);
+
   }
 
 };

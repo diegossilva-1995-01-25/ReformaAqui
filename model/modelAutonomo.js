@@ -37,13 +37,13 @@ var autonomo = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    sql.consultarClienteEmail(autonomo, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(autonomo);
-      cookie = JSON.parse(aux);
-    });
+    aux = await sql.consultarAutonomoCPFeEmail(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    preencher(aux);
 
   },
 
@@ -51,22 +51,25 @@ var autonomo = {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    preencherLogin(dadosJSON);
-    sql.consultarAutonomoCPFeEmail(autonomo, function (retorno) {
-      aux = retorno;
-      dadosJSON = JSON.parse(aux);
-      preencher(dadosJSON);
-      aux = JSON.stringify(autonomo);
-      cookie = JSON.parse(aux);
-      console.log("Oi");
-      redirec.route('/', function (req, res, next, id) {
-        console.log(res.cookie('email', cookie.email));
-        console.log(res.cookie('nome', cookie.nome));
-        res.redirect('/');
+    aux = await sql.consultarAutonomoCPFeEmail(dadosJSON); //, function (retorno) {
 
-      });
+    console.log("Aux: " + aux); // 1
 
-    }); // Faça um callback aqui
+    aux = JSON.parse(aux);
+
+    console.log(dadosJSON.senha + " e " + aux.senha);
+
+    if(dadosJSON.senha == aux.senha) {
+      preencher(aux);
+
+      console.log("Logado: " + autonomo.nome);
+
+
+
+    } else {
+      console.log("Senha incorreta!");
+    }
+
   }
 
 };
