@@ -1,5 +1,6 @@
 const expr = require('express');
 const applic = expr();
+const requisicao = require('request');
 // Tenta da forma de redirect do routes.js
 
 var dadosJSON = JSON.stringify("{}");
@@ -35,7 +36,7 @@ var cliente = {
     sql.editarCliente(cliente);
   },
 
-  visualizar: function (entradaJSON) {
+  visualizar: async function (entradaJSON) {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
@@ -47,7 +48,7 @@ var cliente = {
 
     aux = JSON.parse(aux);
 
-    
+
 
   },
 
@@ -65,10 +66,11 @@ var cliente = {
 
     if(dadosJSON.senha == aux.senha) {
       preencher(aux);
-
       console.log("Logado: " + cliente.nome);
 
-
+      cookieEmail = cliente.email;
+      cookieNome = cliente.nome;
+      cookieCPF = cliente.cpf;
 
     } else {
       console.log("Senha incorreta!");
@@ -89,10 +91,11 @@ var cliente = {
 
     //}); // Faça um callback aqui
 
-    applic.post("/login/cliente", function (req, res) {
-      //usarEstaticos();
-      var caminho = path.join(__dirname + '/../html/index.html');
-      console.log(caminho);
+
+    requisicao('localhost:3000', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body) // Print the google web page.
+      }
     });
 
   }

@@ -1,6 +1,9 @@
 var dadosJSON = JSON.stringify("{}");
 const sql = require('../config/sql');
-var cookie = JSON.parse("{}");
+const requisicao = require('request');
+var cookieNome = '';
+var cookieEmail = '';
+var cookieCPF = '';
 
 var autonomo = {
   cpf:             0,
@@ -31,7 +34,7 @@ var autonomo = {
     // sql.editarAutonomo(autonomo);
   },
 
-  visualizar: function (entradaJSON) {
+  visualizar: async function (entradaJSON) {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
@@ -47,7 +50,7 @@ var autonomo = {
 
   },
 
-  fazerLogin: function (entradaJSON) {
+  fazerLogin: async function (entradaJSON) {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
@@ -59,16 +62,27 @@ var autonomo = {
 
     console.log(dadosJSON.senha + " e " + aux.senha);
 
-    if(dadosJSON.senha == aux.senha) {
-      preencher(aux);
+    if(dadosJSON.senha != aux.senha) {
+      console.log("Senha incorreta!");
 
-      console.log("Logado: " + autonomo.nome);
-
-
+    } else if (dadosJSON.cpf != aux.cpf) {
+      console.log("CPF incorreto!");
 
     } else {
-      console.log("Senha incorreta!");
+      preencher(aux);
+      console.log("Logado: " + autonomo.nome);
+
+      cookieEmail = autonomo.email;
+      cookieNome = autonomo.nome;
+      cookieCPF = autonomo.cpf;
+
     }
+
+    requisicao(__dirname + '/../html/index.html', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body) // Print the google web page.
+      }
+    });
 
   }
 

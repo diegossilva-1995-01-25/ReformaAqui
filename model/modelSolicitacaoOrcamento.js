@@ -34,7 +34,7 @@ var solicitacaoOrcamento = {
     sql.editarSolicitacaoOrcamento(solicitacaoOrcamento);
   },
 
-  visualizar: function (entradaJSON) {
+  visualizar: async function (entradaJSON) {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);

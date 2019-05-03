@@ -93,7 +93,7 @@ var crud = {
 
   },
 
-  consultarAutonomo: function (dadosDeEntrada) {
+  consultarAutonomo: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -123,7 +123,7 @@ var crud = {
 
   },
 
-  consultarAutonomoCPFeEmail: function (dadosDeEntrada) {
+  consultarAutonomoCPFeEmail: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -139,9 +139,11 @@ var crud = {
           console.log("Autônomo consultado!");
 
           if (results.length) {
-            resultSet = results[0];
+            resultSet = JSON.stringify(results[0]);
             console.log(resultSet);
           }
+
+
           con.release();
 
           return resolve(resultSet);
@@ -155,7 +157,7 @@ var crud = {
 
   },
 
-  consultarAutonomos: function () {
+  consultarAutonomos: async function () {
 
     var resultSet = JSON.stringify("{}");
 
@@ -169,14 +171,14 @@ var crud = {
           if (error) throw error;
           console.log("Todos os autônomos!");
 
-          if (results.length) {
-            resultSet = JSON.stringify(results[0]);
+          var iterador = 0
+
+          while (iterador < results.length) {
+            resultSet.push(JSON.stringify(results[iterador]));
+            iterador++;
           }
 
           con.release();
-
-          // Handle error after the release.
-          if (error) throw error;
 
           return resolve(resultSet);
 
@@ -233,7 +235,7 @@ var crud = {
 
   },
 
-  consultarAvaliacao: function (dadosDeEntrada) {
+  consultarAvaliacao: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -262,7 +264,7 @@ var crud = {
 
   },
 
-  consultarAvaliacoes: function () {
+  consultarAvaliacoes: async function () {
 
     var resultSet = JSON.stringify("{}");
 
@@ -276,8 +278,11 @@ var crud = {
           if (error) throw error;
           console.log("Todas as avaliações!");
 
-          if (results.length) {
-            resultSet = JSON.stringify(results[0]);
+          var iterador = 0
+
+          while (iterador < results.length) {
+            resultSet.push(JSON.stringify(results[iterador]));
+            iterador++;
           }
 
           con.release();
@@ -338,7 +343,7 @@ var crud = {
 
   },
 
-  consultarCliente: function (dadosDeEntrada) {
+  consultarCliente: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -439,7 +444,7 @@ var crud = {
 
   },
 
-  consultarFoto: function (dadosDeEntrada) {
+  consultarFoto: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -488,7 +493,7 @@ var crud = {
 
   },
 
-  consultarFotos: function () {
+  consultarFotos: async function () {
 
     var resultSet = JSON.stringify("{}");
 
@@ -502,8 +507,11 @@ var crud = {
           if (error) throw error;
           console.log("Todas as fotos!");
 
-          if (results.length) {
-            resultSet = JSON.stringify(results[0]);
+          var iterador = 0
+
+          while (iterador < results.length) {
+            resultSet.push(JSON.stringify(results[iterador]));
+            iterador++;
           }
 
           con.release();
@@ -563,7 +571,7 @@ var crud = {
 
   },
 
-  consultarHistorico: function (dadosDeEntrada) {
+  consultarHistorico: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -594,7 +602,7 @@ var crud = {
 
   },
 
-  consultarHistoricos: function () {
+  consultarHistoricos: async function () {
 
     var resultSet = JSON.stringify("{}");
 
@@ -608,8 +616,11 @@ var crud = {
           if (error) throw error;
           console.log("Todos os históricos!");
 
-          if (results.length) {
-            resultSet = JSON.stringify(results[0]);
+          var iterador = 0
+
+          while (iterador < results.length) {
+            resultSet.push(JSON.stringify(results[iterador]));
+            iterador++;
           }
 
           con.release();
@@ -670,7 +681,7 @@ var crud = {
 
   },
 
-  consultarOrcamento: function (dadosDeEntrada) {
+  consultarOrcamento: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -699,7 +710,7 @@ var crud = {
 
   },
 
-  consultarOrcamentos: function () {
+  consultarOrcamentos: async function () {
 
     var resultSet = JSON.stringify("{}");
 
@@ -713,8 +724,11 @@ var crud = {
           if (error) throw error;
           console.log("Todos os orçamentos!");
 
-          if (results.length) {
-            resultSet = JSON.stringify(results[0]);
+          var iterador = 0
+
+          while (iterador < results.length) {
+            resultSet.push(JSON.stringify(results[iterador]));
+            iterador++;
           }
 
           con.release();
@@ -772,7 +786,7 @@ var crud = {
 
   },
 
-  consultarRecomendacao: function (dadosDeEntrada) {
+  consultarRecomendacao: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -801,7 +815,7 @@ var crud = {
 
   },
 
-  consultarRecomendacoes: function () {
+  consultarRecomendacoes: async function () {
 
     var resultSet = JSON.stringify("{}");
 
@@ -815,8 +829,11 @@ var crud = {
           if (error) throw error;
           console.log("Todas as recomendações!");
 
-          if (results.length) {
-            resultSet = JSON.stringify(results[0]);
+          var iterador = 0
+
+          while (iterador < results.length) {
+            resultSet.push(JSON.stringify(results[iterador]));
+            iterador++;
           }
 
           con.release();
@@ -873,7 +890,7 @@ var crud = {
 
   },
 
-  consultarSolicitacaoOrcamento: function (dadosDeEntrada) {
+  consultarSolicitacaoOrcamento: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -902,7 +919,7 @@ var crud = {
 
   },
 
-  consultarSolicitacoesOrcamentos: function () {
+  consultarSolicitacoesOrcamentos: async function () {
 
     var resultSet = JSON.stringify("{}");
 
@@ -916,8 +933,11 @@ var crud = {
           if (error) throw error;
           console.log("Todas as solicitações!");
 
-          if (results.length) {
-            resultSet = JSON.stringify(results[0]);
+          var iterador = 0
+
+          while (iterador < results.length) {
+            resultSet.push(JSON.stringify(results[iterador]));
+            iterador++;
           }
 
           con.release();

@@ -23,7 +23,7 @@ var avaliacao = {
     sql.editarAvaliacao(avaliacao);
   },
 
-  visualizar: function (entradaJSON) {
+  visualizar: async function (entradaJSON) {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
