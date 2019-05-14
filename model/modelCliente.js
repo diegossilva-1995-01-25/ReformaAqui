@@ -1,6 +1,10 @@
-const expr = require('express');
-const applic = expr();
-const requisicao = require('request');
+﻿const express = require('express');
+const serveStatic = require('serve-static');
+const app = express();
+const request = require('request');
+const path = require('path');
+const Cookies = require('cookies');
+var cookieSession = require('cookie-session');
 // Tenta da forma de redirect do routes.js
 
 var dadosJSON = JSON.stringify("{}");
@@ -56,9 +60,9 @@ var cliente = {
     var aux;
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
-    aux = await sql.consultarClienteEmail(dadosJSON); //, function (retorno) {
+    aux = await sql.consultarClienteEmail(dadosJSON);
 
-    console.log("Aux: " + aux); // 1
+    console.log("Aux: " + aux);
 
     aux = JSON.parse(aux);
 
@@ -66,15 +70,61 @@ var cliente = {
 
     if(dadosJSON.senha == aux.senha) {
       preencher(aux);
-      console.log("Logado: " + cliente.nome);
+      console.log("Pre-Redirect: " + __dirname);
 
-      cookieEmail = cliente.email;
-      cookieNome = cliente.nome;
-      cookieCPF = cliente.cpf;
+      return cliente;
 
     } else {
       console.log("Senha incorreta!");
+      return "Senha incorreta!";
     }
+
+
+
+    // Faça um app.route ou um request get para o homepage e estabeleça os cookies.
+    // Não vai redirecionar (o routes faz isso) mas vai ter os cookies
+    // Cosi: http://expressjs.com/en/4x/api.html#app.route
+    //       https://www.twilio.com/blog/2017/08/http-requests-in-node-js.html
+
+    // app.use(cookieSession({
+    //   name: 'nome',
+    //   keys: cookieNome,
+    //
+    //   // Cookie Options
+    //   maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    // }));
+    //
+    // app.use(cookieSession({
+    //   name: 'email',
+    //   keys: cookieEmail,
+    //
+    //   // Cookie Options
+    //   maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    // }));
+    //
+    // app.use(cookieSession({
+    //   name: 'cpf',
+    //   keys: cookieCPF,
+    //
+    //   // Cookie Options
+    //   maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    // }));
+
+    // request('http://localhost:3000/', function (request, response) { // Esse foi
+    //
+    //     var keys = ['keys'];
+    //
+    //     objetoCookies = new Cookies(request, response, { keys: keys });
+    //
+    //     objetoCookies.set('email', cookieEmail);
+    //     objetoCookies.set('nome', cookieNome);
+    //     objetoCookies.set('cpf', cookieCPF);
+    //
+    //     var demonst = objetoCookies.get('email');
+    //
+    //     console.log('Cookies criados! ' + demonst);
+    //     // res.redirect(302, '');
+    //   });
 
       // dadosJSON = JSON.parse(aux);
 
@@ -90,13 +140,6 @@ var cliente = {
       // });
 
     //}); // Faça um callback aqui
-
-
-    requisicao('localhost:3000', function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        console.log(body) // Print the google web page.
-      }
-    });
 
   }
 

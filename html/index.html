@@ -1,15 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link type="text/css" rel="stylesheet" href="../html/css/estilo.css">
     <meta charset="utf-8">
     <title>Reforma Aqui</title>
+
+    <script type="text/javascript">
+
+      var cookiesConvertidos = decodeURIComponent(document.cookie);
+      var vetorCookies = cookiesConvertidos.split('; ');
+
+      var cCpf = vetorCookies[0];
+      var cNome = vetorCookies[1];
+      var cEmail = vetorCookies[2];
+
+      $(document).ready(function() {
+
+        if (cNome != null && cNome != "") {
+
+          cCpf = cCpf.substring(cCpf.indexOf("=") + 1);
+          cNome = cNome.substring(cNome.indexOf("=") + 1);
+          cEmail = cEmail.substring(cEmail.indexOf("=") + 1);
+
+          $("div.cornerDiv")
+            .html("<label class=\"welcome\">Seja bem-vindo, " + cNome + " </label> <a class=\"welcome\" href=\"../logoff\">Sair do Sistema </a>");
+
+        }
+      });
+
+    </script>
+
   </head>
 
   <body>
 
     <a href="../" class="logo">
-      <div >
+      <div>
         <img class="icone" src="../html/css/iconTCC.png" alt="ReformaAqui">
         <label>ReformaAqui</label>
       </div>
@@ -27,9 +54,13 @@
       Mostre o orçamento que for enviado.
     -->
     <!--
+      Orçamentos que surgiram com o cliente ou solicitações ao autônomo
+    -->
+    <!--
       Insira aqui a tabela com todos os autônomos ordenados pelo número de estrelas
       e se o cliente desejar, em tal bairro.
     -->
+
 
 
 

@@ -78,6 +78,17 @@ app.get("/login", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
+app.get("/logoff", function (req, res) {
+  usarEstaticos();
+
+  res.clearCookie('email');
+  res.clearCookie('cpf');
+  res.clearCookie('nome');
+
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
+});
+
 app.get("/orcamento", function (req, res) {
   usarEstaticos();
   caminho = path.join(__dirname + '/../html/TelaOrcamento.html');
@@ -104,186 +115,260 @@ app.get("/autonomo", function (req, res) {
 
 // POST
 app.post("/cliente", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   dados = req.body;
   console.log(req.body.cpf + " and " + req.body.nome);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/TelaLogin.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/autonomo", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   dados = req.body;
   console.log(req.body.cpf + " and " + req.body.nome);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/TelaLogin.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/avaliacao", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/aceitarorcamento", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/foto", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/historico", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
-app.post("/login/cliente", function (req, res) {
+app.post("/login/cliente", async function (req, res) {
+  var retornado;
+
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl.substring(1);
   console.log(metOfReq + " and " + reqUrl);
-  controllers.callController(metOfReq, reqUrl.replace("/", ""), req.body);
-  res.end();
+
+  retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), req.body);
+  console.log(retornado);
+
+  if(retornado != "Senha incorreta!") {
+    res.cookie('cpf', retornado.cpf, {maxAge: 30 * 60 * 1000});
+    res.cookie('nome', retornado.nome, {maxAge: 30 * 60 * 1000});
+    res.cookie('email', retornado.email, {maxAge: 30 * 60 * 1000});
+  }
+
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
-app.post("/login/autonomo", function (req, res) {
+app.post("/login/autonomo", async function (req, res) {
+  var retornado;
+
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl.substring(1);
   console.log(metOfReq + " and " + reqUrl);
-  controllers.callController(metOfReq, reqUrl.replace("/", ""), req.body);
-  res.end();
+
+  retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), req.body);
+  console.log(retornado);
+
+  if(retornado != "Senha incorreta!" && retorno != "CPF incorreto!") {
+    res.cookie('cpf', retornado.cpf, {maxAge: 30 * 60 * 1000});
+    res.cookie('nome', retornado.nome, {maxAge: 30 * 60 * 1000});
+    res.cookie('email', retornado.email, {maxAge: 30 * 60 * 1000});
+  }
+
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/orcamento", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/recomendacao", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/solicitacaoorcamento", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.post("/comparar", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 // PUT
 app.put("/avaliacao", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.put("/foto", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.put("/historico", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.put("/orcamento", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.put("/recomendacao", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.put("/solicitacaoorcamento", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.put("/cliente", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 app.put("/autonomo", function (req, res) {
+  usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  res.end();
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
+});
+
+// DELETE
+app.delete("/foto", function (req, res) {
+  usarEstaticos();
+  var controllers = require(__dirname + '/../controller/facadeController.js');
+  var metOfReq = req.method;
+  var reqUrl = req.originalUrl;
+  console.log(metOfReq + " and " + reqUrl);
+  controllers.callController(metOfReq, reqUrl.substring(1), req.body);
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
 });
 
 // Utilidades
@@ -298,7 +383,6 @@ function lerHtml(rota, req, res) {
 
 function usarEstaticos() {
   app.use(express.static('./'));
-  // app.use(express.static('/../html/css/'));
 }
 
 app.listen(3000, function () {

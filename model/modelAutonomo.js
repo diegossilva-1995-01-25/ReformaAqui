@@ -1,6 +1,10 @@
-var dadosJSON = JSON.stringify("{}");
 const sql = require('../config/sql');
+const express = require('express');
+const serveStatic = require('serve-static');
+const app = express();
 const requisicao = require('request');
+
+var dadosJSON = JSON.stringify("{}");
 var cookieNome = '';
 var cookieEmail = '';
 var cookieCPF = '';
@@ -62,27 +66,24 @@ var autonomo = {
 
     console.log(dadosJSON.senha + " e " + aux.senha);
 
+    // Login por CPF OU E-MAIL
+    // Tem bug aqui
+
     if(dadosJSON.senha != aux.senha) {
       console.log("Senha incorreta!");
+      return "Senha incorreta!";
 
     } else if (dadosJSON.cpf != aux.cpf) {
       console.log("CPF incorreto!");
+      return "CPF incorreto!";
 
     } else {
       preencher(aux);
-      console.log("Logado: " + autonomo.nome);
+      console.log("Pre-Redirect: " + __dirname);
 
-      cookieEmail = autonomo.email;
-      cookieNome = autonomo.nome;
-      cookieCPF = autonomo.cpf;
+      return autonomo;
 
     }
-
-    requisicao(__dirname + '/../html/index.html', function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        console.log(body) // Print the google web page.
-      }
-    });
 
   }
 

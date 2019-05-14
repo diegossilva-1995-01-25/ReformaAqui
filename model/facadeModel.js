@@ -1,16 +1,20 @@
 var httpVerb = "";
 var entityName = "";
 
-function callEntity(verb, name, dadosEntrantes) {
+async function callEntity(verb, name, dadosEntrantes) {
   setHttpVerb(verb);
   setEntityName(name);
   const modelo = require(__dirname + '/../model/model' + entityName + '.js');
+  var retorno;
 
   if (name.includes("login")) {
-    modelo.fazerLogin(dadosEntrantes);
+    retorno = await modelo.fazerLogin(dadosEntrantes);
+    // console.log(retorno);
+    return retorno;
 
   } else if (verb == "GET") {
-    modelo.visualizar(dadosEntrantes);
+    retorno = await modelo.visualizar(dadosEntrantes);
+    return retorno;
 
   } else if (verb == "POST") {
     modelo.criar(dadosEntrantes);

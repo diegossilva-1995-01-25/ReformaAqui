@@ -3,15 +3,20 @@ var metodo = "POST";
 var nomeEntidade = "loginAutonomo";
 var dadosJSON = JSON.stringify("{}");
 
-function pegarMetodoHttp(verbo, dadosEntrantes) {
+async function pegarMetodoHttp(verbo, dadosEntrantes) {
 
   const models = require(__dirname + '/../model/facadeModel.js');
+  var obejetoRetorno;
 
   // Método responsável por converter o objeto JavaScript em String
   dadosJSON = JSON.stringify(dadosEntrantes);
   console.log(dadosJSON);
 
-  models.callEntity(metodo, nomeEntidade, dadosJSON);
+  obejetoRetorno = await models.callEntity(metodo, nomeEntidade, dadosJSON);
+
+  // console.log(obejetoRetorno);
+
+  return obejetoRetorno;
 
 }
 

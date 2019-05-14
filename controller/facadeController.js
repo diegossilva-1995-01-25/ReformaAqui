@@ -3,13 +3,23 @@
 var httpVerb = "";
 var nomeTela = "";
 
-function callController(verb, tela, dadosEntrantes) {
+async function callController(verb, tela, dadosEntrantes) {
+
+  var retornoParaRoute;
 
   setHttpVerb(verb);
   setNomeTela(tela);
   const controller = require(__dirname + '/../controller/ctrl' + tela + '.js');
 
-  controller.pegarMetodoHttp(verb, dadosEntrantes);
+  if (tela.includes("login") || verb == "get" || verb == "GET") {
+    retornoParaRoute = await controller.pegarMetodoHttp(verb, dadosEntrantes);
+
+    return retornoParaRoute;
+
+  } else {
+    controller.pegarMetodoHttp(verb, dadosEntrantes);
+
+  }
 
 }
 
