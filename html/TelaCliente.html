@@ -6,6 +6,64 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <meta charset="utf-8">
     <title>Cadastro de Cliente</title>
+
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+
+        var cpf, email, nome, endereco, bairro, telefone, celular;
+
+        var cookiesConvertidos = decodeURIComponent(document.cookie);
+        var vetorCookies = cookiesConvertidos.split('; ');
+
+        var cCpf = vetorCookies[0];
+        var cNome = vetorCookies[1];
+        var cEmail = vetorCookies[2];
+        var cTipo = vetorCookies[3];
+
+        if (cNome != null && cNome != "") {
+
+          cCpf = cCpf.substring(cCpf.indexOf("=") + 1);
+          cNome = cNome.substring(cNome.indexOf("=") + 1);
+          cEmail = cEmail.substring(cEmail.indexOf("=") + 1);
+          cTipo = cTipo.substring(cTipo.indexOf("=") + 1);
+
+          $.get("../cliente/" + cEmail, function (dados) { // $.get("../cliente/" + emailVar, function (dados) {
+            // alert(dados.nome);
+            cpf = dados.cpf;
+            email = dados.email;
+            nome = dados.nome;
+            endereco = dados.endereco;
+            bairro = dados.bairro;
+            telefone = dados.telefone;
+            celular = dados.celular;
+
+            $('#formCliente').prepend("<tr> <td> <label class=\"nomeCampo\"> CPF Antigo </label> </td> " +
+              " <td> <input type=\"number\" name=\"oldCpf\" required readonly/> </td> </tr> <br>");
+            $('input[name="oldCpf"]').val(cpf);
+
+            $('input[name="cpf"]').val(cpf);
+            $('input[name="email"]').val(email);
+            $('input[name="nome"]').val(nome);
+            $('input[name="endereco"]').val(endereco);
+            $('select[name="bairro"]').val(bairro);
+            $('input[name="telefone"]').val(telefone);
+            $('input[name="celular"]').val(celular);
+
+            $("h1").text("Altere seus dados, meu amigo cliente");
+            $( '#formCliente' ).attr( 'action', '/cliente/' + cpf );
+            $( '#formCliente' ).attr( 'method', 'post' );
+
+          })
+
+        }
+
+
+
+      });
+
+    </script>
+
   </head>
 
   <body>
@@ -24,7 +82,7 @@
 
     <div class="formDiv">
 
-      <form action="/cliente" method="post">
+      <form id="formCliente" action="/cliente" method="post">
 
         <tr>
 

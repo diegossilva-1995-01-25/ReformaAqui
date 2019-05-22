@@ -19,7 +19,7 @@ var orcamento = {
     preencher(dadosJSON);
     console.log(orcamento.tipo + " em formato Obj JSON");
     sql.criarOrcamento(orcamento);
-    //enviar(entradaJSON);
+    enviar(entradaJSON);
   },
 
   enviar: function (entradaJSON) {
@@ -28,6 +28,25 @@ var orcamento = {
     console.log('Sendo enviado! ' + entradaJSON);
 
     // Usar nodemailer aqui
+    // create reusable transporter object using the default SMTP transport
+    var configuracoes = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: 'diegodareformaaqui@gmail.com',
+        pass: 'MrDiego556!!'
+      }
+    });
+
+    // send mail with defined transport object
+    let info = await configuracoes.sendMail({
+      from: 'diegodareformaaqui@gmail.com', // sender address
+      to: "diego00023@gmail.com", // list of receivers
+      subject: "Hello", // Subject line
+      text: "Hello world?", // plain text body
+      html: "<b>Hello world?</b>" // html body
+    });
 
   },
 

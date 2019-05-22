@@ -14,6 +14,7 @@
       var cCpf = vetorCookies[0];
       var cNome = vetorCookies[1];
       var cEmail = vetorCookies[2];
+      var cTipo = vetorCookies[3];
 
       $(document).ready(function() {
 
@@ -22,9 +23,11 @@
           cCpf = cCpf.substring(cCpf.indexOf("=") + 1);
           cNome = cNome.substring(cNome.indexOf("=") + 1);
           cEmail = cEmail.substring(cEmail.indexOf("=") + 1);
+          cTipo = cTipo.substring(cTipo.indexOf("=") + 1);
 
           $("div.cornerDiv")
-            .html("<label class=\"welcome\">Seja bem-vindo, " + cNome + " </label> <a class=\"welcome\" href=\"../logoff\">Sair do Sistema </a>");
+            .html("<label class=\"welcome\">Seja bem-vindo, " + cNome +
+            " </label> <a class=\"welcome\" href=\"../" + cTipo + "\">Alterar</a> <a class=\"welcome\" href=\"../logoff\">Sair</a>");
 
         }
       });
@@ -49,6 +52,8 @@
 
     <br>
     <br>
+
+    <h1>ReformaAqui</h1>
 
     <!--
       Mostre o orçamento que for enviado.

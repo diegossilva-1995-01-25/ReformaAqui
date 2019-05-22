@@ -35,6 +35,7 @@ var cliente = {
   editar: function (entradaJSON) {
     console.log('Editado!' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(dadosJSON.nome + "conv");
     preencher(dadosJSON);
     console.log(cliente.nome + " em formato Obj JSON");
     sql.editarCliente(cliente);
@@ -42,6 +43,8 @@ var cliente = {
 
   visualizar: async function (entradaJSON) {
     var aux;
+
+    entradaJSON = decodeURIComponent(entradaJSON);
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
@@ -52,7 +55,9 @@ var cliente = {
 
     aux = JSON.parse(aux);
 
+    preencher(aux);
 
+    return cliente;
 
   },
 
@@ -163,6 +168,11 @@ function limpar() {
 
 function preencher(dados) {
   limpar();
+
+  if(dados.oldCpf != null) {
+    cliente.oldCpf = dados.oldCpf;
+  }
+
   cliente.cpf = dados.cpf;
   cliente.email = dados.email;
   cliente.nome = dados.nome;

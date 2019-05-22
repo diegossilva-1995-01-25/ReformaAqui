@@ -73,11 +73,11 @@ var crud = {
     pool.getConnection(function(err, con) {
       if (err) throw err; // not connected!
 
-      comando = "UPDATE cliente SET `cpf` = " + con.escape(dadosDeEntrada.cpf) + ", `email` = " + con.escape(dadosDeEntrada.email) +
+      comando = "UPDATE autonomo SET `cpf` = " + con.escape(dadosDeEntrada.cpf) + ", `email` = " + con.escape(dadosDeEntrada.email) +
         ", `nome` = " + con.escape(dadosDeEntrada.nome) + ", `endereco` = " + con.escape(dadosDeEntrada.endereco) +
         ", `bairro` = " + con.escape(dadosDeEntrada.bairro) + ", `telefone` = " + con.escape(dadosDeEntrada.telefone) + ", " +
-        "`celular` = " + con.escape(dadosDeEntrada.celular) + ", `pendencias` = " + con.escape(dadosDeEntrada.pendencias) +
-        ", `senha` = " + con.escape(dadosDeEntrada.senha) + " WHERE `cpf` = " + con.escape(dadosDeEntrada.cpf);
+        "`celular` = " + con.escape(dadosDeEntrada.celular) + ", `pendencias` = FALSE, `senha` = " + con.escape(dadosDeEntrada.senha) +
+        " WHERE `cpf` = " + con.escape(dadosDeEntrada.oldCpf);
 
       con.query(comando, function (error, results, fields) {
         if (error) throw error;
@@ -131,8 +131,8 @@ var crud = {
       pool.getConnection(function(err, con) {
         if (err) return reject(err); // not connected!
 
-        comando = "SELECT * FROM autonomo WHERE cpf = "  + con.escape(dadosDeEntrada.cpf) +
-          " AND email = " + con.escape(dadosDeEntrada.email);
+        comando = "SELECT * FROM autonomo WHERE cpf = "  + con.escape(decodeURIComponent(dadosDeEntrada.cpf)) +
+          " AND email = " + con.escape(decodeURIComponent(dadosDeEntrada.email));
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;
@@ -327,8 +327,8 @@ var crud = {
       comando = "UPDATE cliente SET `cpf` = " + con.escape(dadosDeEntrada.cpf) + ", `email` = " + con.escape(dadosDeEntrada.email) +
         ", `nome` = " + con.escape(dadosDeEntrada.nome) + ", `endereco` = " + con.escape(dadosDeEntrada.endereco) +
         ", `bairro` = " + con.escape(dadosDeEntrada.bairro) + ", `telefone` = " + con.escape(dadosDeEntrada.telefone) + ", " +
-        "`celular` = " + con.escape(dadosDeEntrada.celular) + ", `pendencias` = " + con.escape(dadosDeEntrada.pendencias) +
-        ", `senha` = " + con.escape(dadosDeEntrada.senha) + " WHERE `cpf` = "  + con.escape(dadosDeEntrada.cpf);
+        "`celular` = " + con.escape(dadosDeEntrada.celular) + ", `pendencias` = FALSE, `senha` = " + con.escape(dadosDeEntrada.senha) +
+        " WHERE `cpf` = "  + con.escape(dadosDeEntrada.oldCpf);
 
       con.query(comando, function (error, results, fields) {
         if (error) throw error;
@@ -380,7 +380,9 @@ var crud = {
       pool.getConnection(function(err, con) {
       if (err) return reject(err); // not connected!
 
-      comando = "SELECT * FROM cliente WHERE email = " + con.escape(dadosDeEntrada.email);
+      comando = "SELECT * FROM cliente WHERE email = " + con.escape(decodeURIComponent(dadosDeEntrada.email));
+
+      console.log(encodeURIComponent(dadosDeEntrada.email));
 
       // Problema aqui, por que o callback não preenche o resultSet?
       con.query(comando, function (error, results, fields) {

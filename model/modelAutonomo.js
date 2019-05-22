@@ -35,11 +35,13 @@ var autonomo = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
     console.log(autonomo.nome + " em formato Obj JSON");
-    // sql.editarAutonomo(autonomo);
+    sql.editarAutonomo(autonomo);
   },
 
   visualizar: async function (entradaJSON) {
     var aux;
+
+    entradaJSON = decodeURIComponent(entradaJSON);
     console.log("Encontrado " + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
@@ -51,6 +53,8 @@ var autonomo = {
     aux = JSON.parse(aux);
 
     preencher(aux);
+
+    return autonomo;
 
   },
 
@@ -109,6 +113,11 @@ function limpar() {
 
 function preencher(dados) {
   limpar();
+
+  if(dados.oldCpf != null) {
+    autonomo.oldCpf = dados.oldCpf;
+  }
+
   autonomo.cpf = dados.cpf;
   autonomo.email = dados.email;
   autonomo.nome = dados.nome;

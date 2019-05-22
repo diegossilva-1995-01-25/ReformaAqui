@@ -16,9 +16,12 @@ const express = require('express');
 const serveStatic = require('serve-static');
 const app = express();
 const bodyParser = require('body-parser');
+const Cookies = require('cookies');
+const request = require('request');
 
 var caminho = '';
 var dados = '';
+var cabecalho, opcoes;
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // GET
@@ -48,10 +51,77 @@ app.get("/avaliacao", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
-app.get("/cliente", function (req, res) {
+app.get("/cliente", async function (req, res) {
+
   usarEstaticos();
+
   caminho = path.join(__dirname + '/../html/TelaCliente.html');
   lerHtml(caminho, req, res);
+
+});
+
+app.get("/cliente/:email", async function (req, res) { // app.get("/cliente/?", async function (req, res) { // : or *
+
+  var retornado;
+  var cookies = new Cookies(req, res);
+
+  var cookieExiste = cookies.get('email');
+  var controllers = require(__dirname + '/../controller/facadeController.js');
+
+  var metOfReq = req.method;
+  var reqUrl = req.originalUrl.split("/");
+  reqUrl = reqUrl[1];
+
+  console.log("end: " + reqUrl);
+
+  // var c = req.cookies
+
+  if (cookieExiste != null && cookieExiste != '') {
+    var entJSON = { "cpf": cookies.get('cpf'), "email": cookies.get('email'), "nome": cookies.get('nome') };
+
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), entJSON);
+
+    // console.log("Ret: " + JSON.stringify(retornado));
+
+    res.send(retornado);
+    res.end();
+
+  }
+
+  // Fazer um get de cliente/email e orcamento/id
+
+});
+
+app.get("/autonomo/:email", async function (req, res) {
+
+  var retornado;
+  var cookies = new Cookies(req, res);
+
+  var cookieExiste = cookies.get('email');
+  var controllers = require(__dirname + '/../controller/facadeController.js');
+
+  var metOfReq = req.method;
+  var reqUrl = req.originalUrl.split("/");
+  reqUrl = reqUrl[1];
+
+  console.log("end: " + reqUrl);
+
+  // var c = req.cookies
+
+  if (cookieExiste != null && cookieExiste != '') {
+    var entJSON = { "cpf": cookies.get('cpf'), "email": cookies.get('email'), "nome": cookies.get('nome') };
+
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), entJSON);
+
+    // console.log("Ret: " + JSON.stringify(retornado));
+
+    res.send(retornado);
+    res.end();
+
+  }
+
+  // Fazer um get de cliente/email e orcamento/id
+
 });
 
 app.get("/comparar", function (req, res) {
@@ -84,6 +154,7 @@ app.get("/logoff", function (req, res) {
   res.clearCookie('email');
   res.clearCookie('cpf');
   res.clearCookie('nome');
+  res.clearCookie('tipo');
 
   caminho = path.join(__dirname + '/../html/index.html');
   lerHtml(caminho, req, res);
@@ -126,6 +197,35 @@ app.post("/cliente", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
+app.post("/cliente/:cpf", function (req, res) {
+
+  var entrada, retornado;
+
+  entrada = req.body;
+  retornado = '';
+
+  console.log("Entrada: " + JSON.stringify(entrada));
+
+  var opcoes = {
+      uri: 'http://localhost:3000/cliente',
+      method: 'PUT',
+      form: entrada
+  };
+
+  request(opcoes, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // Print out the response body
+      console.log(body);
+    } else {
+      console.log("Erro:" + error);
+    }
+  });
+
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
+
+});
+
 app.post("/autonomo", function (req, res) {
   usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
@@ -136,6 +236,35 @@ app.post("/autonomo", function (req, res) {
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
   caminho = path.join(__dirname + '/../html/TelaLogin.html');
   lerHtml(caminho, req, res);
+});
+
+app.post("/autonomo/:cpf", function (req, res) {
+
+  var entrada, retornado;
+
+  entrada = req.body;
+  retornado = '';
+
+  console.log("Entrada: " + JSON.stringify(entrada));
+
+  var opcoes = {
+      uri: 'http://localhost:3000/autonomo',
+      method: 'PUT',
+      form: entrada
+  };
+
+  request(opcoes, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // Print out the response body
+      console.log(body);
+    } else {
+      console.log("Erro:" + error);
+    }
+  });
+
+  caminho = path.join(__dirname + '/../html/index.html');
+  lerHtml(caminho, req, res);
+
 });
 
 app.post("/avaliacao", function (req, res) {
@@ -198,6 +327,7 @@ app.post("/login/cliente", async function (req, res) {
     res.cookie('cpf', retornado.cpf, {maxAge: 30 * 60 * 1000});
     res.cookie('nome', retornado.nome, {maxAge: 30 * 60 * 1000});
     res.cookie('email', retornado.email, {maxAge: 30 * 60 * 1000});
+    res.cookie('tipo', 'cliente', {maxAge: 30 * 60 * 1000});
   }
 
   caminho = path.join(__dirname + '/../html/index.html');
@@ -216,10 +346,11 @@ app.post("/login/autonomo", async function (req, res) {
   retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), req.body);
   console.log(retornado);
 
-  if(retornado != "Senha incorreta!" && retorno != "CPF incorreto!") {
+  if(retornado != "Senha incorreta!" && retornado != "CPF incorreto!") {
     res.cookie('cpf', retornado.cpf, {maxAge: 30 * 60 * 1000});
     res.cookie('nome', retornado.nome, {maxAge: 30 * 60 * 1000});
     res.cookie('email', retornado.email, {maxAge: 30 * 60 * 1000});
+    res.cookie('tipo', 'autonomo', {maxAge: 30 * 60 * 1000});
   }
 
   caminho = path.join(__dirname + '/../html/index.html');
@@ -278,8 +409,8 @@ app.put("/avaliacao", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 app.put("/foto", function (req, res) {
@@ -289,8 +420,8 @@ app.put("/foto", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 app.put("/historico", function (req, res) {
@@ -300,8 +431,8 @@ app.put("/historico", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 app.put("/orcamento", function (req, res) {
@@ -311,8 +442,8 @@ app.put("/orcamento", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 app.put("/recomendacao", function (req, res) {
@@ -322,8 +453,8 @@ app.put("/recomendacao", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 app.put("/solicitacaoorcamento", function (req, res) {
@@ -333,8 +464,8 @@ app.put("/solicitacaoorcamento", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 app.put("/cliente", function (req, res) {
@@ -343,9 +474,10 @@ app.put("/cliente", function (req, res) {
   var metOfReq = req.method;
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
+  console.log("PUT: " + JSON.stringify(req.body));
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 app.put("/autonomo", function (req, res) {
@@ -355,8 +487,8 @@ app.put("/autonomo", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 // DELETE
@@ -367,8 +499,8 @@ app.delete("/foto", function (req, res) {
   var reqUrl = req.originalUrl;
   console.log(metOfReq + " and " + reqUrl);
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
+  // caminho = path.join(__dirname + '/../html/index.html');
+  // lerHtml(caminho, req, res);
 });
 
 // Utilidades

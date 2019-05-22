@@ -3,8 +3,9 @@ var metodo = "";
 var nomeEntidade = "cliente";
 var dadosJSON = JSON.stringify("{}");
 
-function pegarMetodoHttp(verbo, dadosEntrantes) {
+async function pegarMetodoHttp(verbo, dadosEntrantes) {
 
+  var obejetoRetorno;
   const models = require(__dirname + '/../model/facadeModel.js');
 
   // Método responsável por converter o objeto JavaScript em String JSON
@@ -13,16 +14,21 @@ function pegarMetodoHttp(verbo, dadosEntrantes) {
 
   if (verbo == 'POST' || verbo == 'post') {
     pegarPOST();
+    models.callEntity(metodo, nomeEntidade, dadosJSON);
 
   } else if (verbo == 'PUT' || verbo == 'put') {
     pegarPUT();
+    models.callEntity(metodo, nomeEntidade, dadosJSON);
 
   } else if (verbo == 'GET' || verbo == 'get') {
     pegarGET();
+    obejetoRetorno = await models.callEntity(metodo, nomeEntidade, dadosJSON);
+    
+    return obejetoRetorno;
 
   }
 
-  models.callEntity(metodo, nomeEntidade, dadosJSON);
+
 
 }
 

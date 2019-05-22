@@ -14,6 +14,7 @@ async function callEntity(verb, name, dadosEntrantes) {
 
   } else if (verb == "GET") {
     retorno = await modelo.visualizar(dadosEntrantes);
+    // console.log("CE: " + JSON.stringify(retorno));
     return retorno;
 
   } else if (verb == "POST") {
