@@ -6,8 +6,14 @@ async function callEntity(verb, name, dadosEntrantes) {
   setEntityName(name);
   const modelo = require(__dirname + '/../model/model' + entityName + '.js');
   var retorno;
+  console.log(dadosEntrantes + "callEntity");
 
-  if (name.includes("login")) {
+  if (JSON.parse(dadosEntrantes).dados != null) {
+    console.log("Aqui");
+    retorno = await modelo.visualizarTodos();
+    return retorno;
+
+  } else if (name.includes("login")) {
     retorno = await modelo.fazerLogin(dadosEntrantes);
     // console.log(retorno);
     return retorno;

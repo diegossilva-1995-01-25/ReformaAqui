@@ -7,7 +7,6 @@ async function pegarMetodoHttp(verbo, dadosEntrantes) {
 
   const models = require(__dirname + '/../model/facadeModel.js');
 
-  // Método responsável por converter o objeto JavaScript em String
   dadosJSON = JSON.stringify(dadosEntrantes);
   console.log(dadosJSON);
 

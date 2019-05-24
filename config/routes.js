@@ -102,24 +102,41 @@ app.get("/autonomo/:email", async function (req, res) {
 
   var metOfReq = req.method;
   var reqUrl = req.originalUrl.split("/");
+  var check = reqUrl[2];
   reqUrl = reqUrl[1];
+
 
   console.log("end: " + reqUrl);
 
   // var c = req.cookies
 
-  if (cookieExiste != null && cookieExiste != '') {
-    var entJSON = { "cpf": cookies.get('cpf'), "email": cookies.get('email'), "nome": cookies.get('nome') };
+  if (check == "all") {
 
-    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), entJSON);
+    var ent = {"dados": "Todos"};
 
-    // console.log("Ret: " + JSON.stringify(retornado));
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), ent);
+
+    console.log("Ret: " + JSON.stringify(retornado));
 
     res.send(retornado);
     res.end();
 
-  }
 
+  } else {
+
+    if (cookieExiste != null && cookieExiste != '') {
+      var entJSON = { "cpf": cookies.get('cpf'), "email": cookies.get('email'), "nome": cookies.get('nome') };
+
+      retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), entJSON);
+
+      // console.log("Ret: " + JSON.stringify(retornado));
+
+      res.send(retornado);
+      res.end();
+
+    }
+
+  }
   // Fazer um get de cliente/email e orcamento/id
 
 });

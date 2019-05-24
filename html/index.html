@@ -29,7 +29,41 @@
             .html("<label class=\"welcome\">Seja bem-vindo, " + cNome +
             " </label> <a class=\"welcome\" href=\"../" + cTipo + "\">Alterar</a> <a class=\"welcome\" href=\"../logoff\">Sair</a>");
 
+          if (cTipo == "autonomo") {
+            $("body").append("<div class=\"formDiv\"><a href=\"../orcamento\">Criar orçamento</a></div><br>");
+
+          } else {
+            $("body").append("<div class=\"formDiv\"><a href=\"../solicitacaoorcamento\">Solicitar orçamento</a></div><br><br>");
+
+          }
+
         }
+
+        // Pegar todos os autonomos
+        $.get("../autonomo/all", function (dados) {
+
+          var tabelaHTML = "";
+
+          tabelaHTML = tabelaHTML + " <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
+            " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> </tr>" +
+            " </thead>" +
+            "<tbody>";
+
+          for (var i in dados) {
+            tabelaHTML = tabelaHTML + "<tr>" + "<td>" + dados[i].email + "</td>" +
+              "<td>" + dados[i].nome + "</td>" +
+              "<td>" + dados[i].bairro + "</td>" +
+              "<td>" + dados[i].telefone + "</td>" +
+              "<td>" + dados[i].celular + "</td>" +
+              "<td>" + dados[i].funcaoPrimaria + "</td>" + "</tr>";
+          }
+
+          tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+
+          $("body").append(tabelaHTML);
+
+        });
+
       });
 
     </script>
@@ -54,6 +88,10 @@
     <br>
 
     <h1>ReformaAqui</h1>
+
+    <br>
+    <br>
+
 
     <!--
       Mostre o orçamento que for enviado.

@@ -171,12 +171,9 @@ var crud = {
           if (error) throw error;
           console.log("Todos os autônomos!");
 
-          var iterador = 0
+          var iterador = 0;
 
-          while (iterador < results.length) {
-            resultSet.push(JSON.stringify(results[iterador]));
-            iterador++;
-          }
+          resultSet = JSON.stringify(results);
 
           con.release();
 

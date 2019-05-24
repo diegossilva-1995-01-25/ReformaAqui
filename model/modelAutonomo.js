@@ -58,6 +58,18 @@ var autonomo = {
 
   },
 
+  visualizarTodos: async function () {
+
+    var aux = await sql.consultarAutonomos();
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    return aux;
+
+  },
+
   fazerLogin: async function (entradaJSON) {
     var aux;
     console.log("Encontrado " + entradaJSON);
