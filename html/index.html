@@ -16,8 +16,11 @@
       var cEmail = vetorCookies[2];
       var cTipo = vetorCookies[3];
 
+      var tabelaHTML = "";
+
       $(document).ready(function() {
 
+        // Há cookies?
         if (cNome != null && cNome != "") {
 
           cCpf = cCpf.substring(cCpf.indexOf("=") + 1);
@@ -29,40 +32,101 @@
             .html("<label class=\"welcome\">Seja bem-vindo, " + cNome +
             " </label> <a class=\"welcome\" href=\"../" + cTipo + "\">Alterar</a> <a class=\"welcome\" href=\"../logoff\">Sair</a>");
 
+          // Verifica o tipo de usuário para não fazer um autônomo solicitar orçamento
           if (cTipo == "autonomo") {
             $("body").append("<div class=\"formDiv\"><a href=\"../orcamento\">Criar orçamento</a></div><br>");
 
+            // Pegar todos os autonomos
+            $.get("../autonomo/all", function (dados) {
+
+              tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Autônomos</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
+                " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> " +
+                " </tr> </thead>" +
+                "<tbody>";
+
+              for (var i in dados) {
+                tabelaHTML = tabelaHTML + " <tr>" +
+                  "<td>" + dados[i].email + "</td>" +
+                  "<td>" + dados[i].nome + "</td>" +
+                  "<td>" + dados[i].bairro + "</td>" +
+                  "<td>" + dados[i].telefone + "</td>" +
+                  "<td>" + dados[i].celular + "</td>" +
+                  "<td>" + dados[i].funcaoPrimaria + "</td>" +
+                  "</tr>";
+
+              }
+
+              tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+
+              $("body").append(tabelaHTML);
+
+            });
+
+          // Sendo cliente, disponibiliza as solicitações de orçamentos
           } else {
-            $("body").append("<div class=\"formDiv\"><a href=\"../solicitacaoorcamento\">Solicitar orçamento</a></div><br><br>");
+            $("body").append("<div class=\"formDivTagA\"> <tr> <td> <a class=\"paraCliente\" href=\"../solicitacaoorcamento\">Solicitar orçamento</a> </tr> <br>");
+
+            // Pegar todos os autonomos
+            $.get("../autonomo/all", function (dados) {
+
+
+
+              tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Autônomos</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
+                " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> " +
+                " <th> Solicitar Orçamento </th> <th> Recomenda? </th> </tr> </thead>" +
+                "<tbody>";
+
+              for (var i in dados) {
+                tabelaHTML = tabelaHTML + " <tr>" +
+                  "<td>" + dados[i].email + "</td>" +
+                  "<td>" + dados[i].nome + "</td>" +
+                  "<td>" + dados[i].bairro + "</td>" +
+                  "<td>" + dados[i].telefone + "</td>" +
+                  "<td>" + dados[i].celular + "</td>" +
+                  "<td>" + dados[i].funcaoPrimaria + "</td>" +
+                  "<td> <a href=\"../solicitacaoorcamento/" + dados[i].cpf + "\"> Solicite </a> </td>" +
+                  "<td> <a href=\"../recomendacao/" + dados[i].cpf + "\"> Recomende </a> </td> </tr>";
+
+              }
+
+              tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+
+              $("body").append(tabelaHTML);
+
+            });
 
           }
+
+        // Exibe todos os autônomos, mesmo sem estar logado
+        } else {
+          // Pegar todos os autonomos
+          $.get("../autonomo/all", function (dados) {
+
+            var tabelaHTML = "";
+
+            tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Autônomos</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
+              " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> " +
+              " </tr> </thead>" +
+              "<tbody>";
+
+            for (var i in dados) {
+              tabelaHTML = tabelaHTML + " <tr>" +
+                "<td>" + dados[i].email + "</td>" +
+                "<td>" + dados[i].nome + "</td>" +
+                "<td>" + dados[i].bairro + "</td>" +
+                "<td>" + dados[i].telefone + "</td>" +
+                "<td>" + dados[i].celular + "</td>" +
+                "<td>" + dados[i].funcaoPrimaria + "</td>" +
+                "</tr>";
+            }
+
+            tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+
+            $("body").append(tabelaHTML);
+
+          });
 
         }
-
-        // Pegar todos os autonomos
-        $.get("../autonomo/all", function (dados) {
-
-          var tabelaHTML = "";
-
-          tabelaHTML = tabelaHTML + " <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
-            " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> </tr>" +
-            " </thead>" +
-            "<tbody>";
-
-          for (var i in dados) {
-            tabelaHTML = tabelaHTML + "<tr>" + "<td>" + dados[i].email + "</td>" +
-              "<td>" + dados[i].nome + "</td>" +
-              "<td>" + dados[i].bairro + "</td>" +
-              "<td>" + dados[i].telefone + "</td>" +
-              "<td>" + dados[i].celular + "</td>" +
-              "<td>" + dados[i].funcaoPrimaria + "</td>" + "</tr>";
-          }
-
-          tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
-
-          $("body").append(tabelaHTML);
-
-        });
 
       });
 

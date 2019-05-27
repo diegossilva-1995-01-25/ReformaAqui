@@ -17,6 +17,15 @@
       var cEmail = vetorCookies[2];
       var cTipo = vetorCookies[3];
 
+      var url = $(location).attr('href');
+
+      var auxil = url.split("recomendacao/");
+
+      var nomeAutonomo;
+      var funcao;
+
+      url = auxil[1];
+
       $(document).ready(function() {
 
         if (cNome != null && cNome != "") {
@@ -29,6 +38,18 @@
           $("div.cornerDiv")
             .html("<label class=\"welcome\">Seja bem-vindo, " + cNome +
             " </label> <a class=\"welcome\" href=\"../" + cTipo + "\">Alterar</a> <a class=\"welcome\" href=\"../logoff\">Sair</a>");
+
+          $.get("../autonomo/" + url, function (dados) {
+            nomeAutonomo = dados.nome;
+            funcao = dados.funcaoPrimaria;
+
+            $("h1").append(nomeAutonomo);
+
+            $('input[name="cpfCliente"]').val(cCpf);
+            $('input[name="cpfAutonomo"]').val(url);
+            $('input[name="funcao"]').val(funcao);
+
+          });
 
         }
       });
@@ -54,15 +75,47 @@
     <br>
     <br>
 
-    <h1> Seu Depoimento sobre Fulano de Tal </h1>
+    <h1> Seu Depoimento sobre </h1>
 
     <div class="formDiv">
 
-      <form>
+      <form id="formRecomendacao" action="/recomendacao" method="post">
 
         <tr>
 
-          <td> <textarea name="descricaoAvaliacao" maxlength="255"></textarea> </td>
+          <td> <label class="nomeCampo"> CPF Cliente </label> </td>
+
+          <td> <input type="number" name="cpfCliente" required readonly/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> CPF Autônomo </label> </td>
+
+          <td> <input type="number" name="cpfAutonomo" required readonly/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Função </label> </td>
+
+          <td> <input type="text" name="funcao" required readonly/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> Por que? </label> </td>
+
+          <td> <textarea name="descricao" maxlength="255"></textarea> </td>
 
         </tr>
 

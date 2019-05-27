@@ -28,7 +28,7 @@
           cEmail = cEmail.substring(cEmail.indexOf("=") + 1);
           cTipo = cTipo.substring(cTipo.indexOf("=") + 1);
 
-          $.get("../autonomo/" + cEmail, function (dados) { // $.get("../cliente/" + emailVar, function (dados) {
+          $.get("../autonomo/" + cCpf, function (dados) { // $.get("../cliente/" + emailVar, function (dados) {
             // alert(dados.nome);
             cpf = dados.cpf;
             email = dados.email;
@@ -124,7 +124,7 @@
 
           <td>
             <select name="bairro" required>
-              <option value="none">Selecione o Bairro</option>
+              <option value="">Selecione o Bairro</option>
               <option value="ermelinoMatarazzo">Ermelino Matarazzo</option>
               <option value="itaquera">Itaquera</option>
               <option value="penha">Penha</option>
@@ -162,7 +162,7 @@
 
           <td>
             <select name="funcaoPrimaria" required>
-              <option value="none">Selecione a Função</option>
+              <option value="">Selecione a Função</option>
               <option value="pedreiro">Pedreiro</option>
               <option value="carpinteiro">Carpinteiro</option>
               <option value="encanador">Encanador</option>

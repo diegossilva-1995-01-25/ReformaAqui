@@ -46,7 +46,7 @@ var autonomo = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    aux = await sql.consultarAutonomoCPFeEmail(dadosJSON);
+    aux = await sql.consultarAutonomo(dadosJSON);
 
     console.log("Aux: " + aux); // 1
 

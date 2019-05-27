@@ -28,7 +28,7 @@
           cEmail = cEmail.substring(cEmail.indexOf("=") + 1);
           cTipo = cTipo.substring(cTipo.indexOf("=") + 1);
 
-          $.get("../cliente/" + cEmail, function (dados) { // $.get("../cliente/" + emailVar, function (dados) {
+          $.get("../cliente/" + cCpf, function (dados) { // $.get("../cliente/" + emailVar, function (dados) {
             // alert(dados.nome);
             cpf = dados.cpf;
             email = dados.email;
@@ -122,7 +122,7 @@
 
           <td>
             <select name="bairro" required>
-              <option value="none">Selecione o Bairro</option>
+              <option value="">Selecione o Bairro</option>
               <option value="ermelinoMatarazzo">Ermelino Matarazzo</option>
               <option value="itaquera">Itaquera</option>
               <option value="penha">Penha</option>

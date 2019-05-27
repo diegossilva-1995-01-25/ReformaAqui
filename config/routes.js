@@ -105,8 +105,7 @@ app.get("/autonomo/:email", async function (req, res) {
   var check = reqUrl[2];
   reqUrl = reqUrl[1];
 
-
-  console.log("end: " + reqUrl);
+  console.log(typeof check);
 
   // var c = req.cookies
 
@@ -124,8 +123,21 @@ app.get("/autonomo/:email", async function (req, res) {
 
   } else {
 
-    if (cookieExiste != null && cookieExiste != '') {
+    // RegExp para só números
+    var isNumeros = /^\d+$/.test(check);
+
+    if (cookieExiste != null && cookieExiste != '' && !isNumeros) {
       var entJSON = { "cpf": cookies.get('cpf'), "email": cookies.get('email'), "nome": cookies.get('nome') };
+
+      retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), entJSON);
+
+      // console.log("Ret: " + JSON.stringify(retornado));
+
+      res.send(retornado);
+      res.end();
+
+    } else if (cookieExiste != null && cookieExiste != '' && isNumeros) {
+      var entJSON = { "cpf": check };
 
       retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), entJSON);
 
@@ -183,13 +195,25 @@ app.get("/orcamento", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
-app.get("/recomendacao", function (req, res) {
+app.get("/recomendacao/:cpf", function (req, res) {
+  usarEstaticos();
+  caminho = path.join(__dirname + '/../html/TelaRecomendacao.html');
+  lerHtml(caminho, req, res);
+});
+
+app.get("/recomendacao/:cpf/editar", function (req, res) {
   usarEstaticos();
   caminho = path.join(__dirname + '/../html/TelaRecomendacao.html');
   lerHtml(caminho, req, res);
 });
 
 app.get("/solicitacaoorcamento", function (req, res) {
+  usarEstaticos();
+  caminho = path.join(__dirname + '/../html/TelaSolicitarOrcamentoPublico.html');
+  lerHtml(caminho, req, res);
+});
+
+app.get("/solicitacaoorcamento/:cpfAutonomo", function (req, res) {
   usarEstaticos();
   caminho = path.join(__dirname + '/../html/TelaSolicitarOrcamento.html');
   lerHtml(caminho, req, res);

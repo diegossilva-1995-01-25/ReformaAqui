@@ -30,6 +30,9 @@
             .html("<label class=\"welcome\">Seja bem-vindo, " + cNome +
             " </label> <a class=\"welcome\" href=\"../" + cTipo + "\">Alterar</a> <a class=\"welcome\" href=\"../logoff\">Sair</a>");
 
+            $('input[name="cpfCliente"]').val(cCpf);
+            $('input[name="cpfAutonomo"]').val(0);
+
         }
       });
 
@@ -58,20 +61,40 @@
 
     <div class="formDiv">
 
-      <form>
+      <form id="formSolicitar" action="/solicitacaoorcamento" method="post">
+
+        <tr>
+
+          <td> <label class="nomeCampo"> CPF Cliente </label> </td>
+
+          <td> <input type="number" name="cpfCliente" required readonly/> </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+          <td> <label class="nomeCampo"> CPF Autônomo </label> </td>
+
+          <td> <input type="number" name="cpfAutonomo" required readonly/> </td>
+
+        </tr>
+
+        <br>
 
         <tr>
 
           <td> <label class="nomeCampo"> Tipo do Serviço </label> </td>
 
           <td>
-            <select name="tipoServico">
-              <option value="none">Selecione o Tipo</option>
+            <select name="tipo" required>
+              <option value="">Selecione o Tipo</option>
               <option value="pedreiro">Pedreiro</option>
               <option value="carpinteiro">Carpinteiro</option>
               <option value="encanador">Encanador</option>
               <option value="eletricista">Eletricista</option>
-              <option value="pintor">pintor</option>
+              <option value="pintor">Pintor</option>
             </select>
           </td>
 
@@ -81,7 +104,7 @@
 
         <tr>
 
-          <td> <label class="nomeCampo"> Descrição do Serviço </label> </td> <td> <textarea name="descricaoServico" maxlength="255"></textarea> </td>
+          <td> <label class="nomeCampo"> Descrição do Serviço </label> </td> <td> <textarea name="descricao" maxlength="255" required></textarea> </td>
 
         </tr>
 

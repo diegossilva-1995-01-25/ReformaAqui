@@ -49,7 +49,7 @@ var cliente = {
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     console.log(dadosJSON.nome + " em formato Obj JSON");
 
-    aux = await sql.consultarClienteEmail(dadosJSON);
+    aux = await sql.consultarCliente(dadosJSON);
 
     console.log("Aux: " + aux); // 1
 
