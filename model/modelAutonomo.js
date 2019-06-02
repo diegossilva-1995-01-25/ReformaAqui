@@ -58,7 +58,7 @@ var autonomo = {
 
   },
 
-  visualizarTodos: async function () {
+  visualizarTodos: async function (entradaJSON) {
 
     var aux = await sql.consultarAutonomos();
 

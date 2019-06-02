@@ -10,7 +10,7 @@ async function callEntity(verb, name, dadosEntrantes) {
 
   if (JSON.parse(dadosEntrantes).dados != null) {
     console.log("Aqui");
-    retorno = await modelo.visualizarTodos();
+    retorno = await modelo.visualizarTodos(dadosEntrantes);
     return retorno;
 
   } else if (name.includes("login")) {

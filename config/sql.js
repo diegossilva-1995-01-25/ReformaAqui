@@ -109,6 +109,8 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existe este registro."});
           }
 
           con.release();
@@ -141,6 +143,8 @@ var crud = {
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
             console.log(resultSet);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existe este registro."});
           }
 
 
@@ -171,9 +175,12 @@ var crud = {
           if (error) throw error;
           console.log("Todos os autônomos!");
 
-          var iterador = 0;
+          if (results.length) {
+            resultSet = JSON.stringify(results);
 
-          resultSet = JSON.stringify(results);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existem registros."});
+          }
 
           con.release();
 
@@ -248,6 +255,8 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existe este registro."});
           }
 
           con.release();
@@ -275,11 +284,11 @@ var crud = {
           if (error) throw error;
           console.log("Todas as avaliações!");
 
-          var iterador = 0
+          if (results.length) {
+            resultSet = JSON.stringify(results);
 
-          while (iterador < results.length) {
-            resultSet.push(JSON.stringify(results[iterador]));
-            iterador++;
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existem registros."});
           }
 
           con.release();
@@ -355,6 +364,8 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existe este registro."});
           }
 
           con.release();
@@ -385,8 +396,11 @@ var crud = {
       con.query(comando, function (error, results, fields) {
         if (error) return reject(error);
         // console.log("Cliente consultado!");
-        if (results.length) {
+        if (results.length != 0) {
           resultSet = JSON.stringify(results[0]);
+        } else {
+          resultSet = JSON.stringify({"Erro": "Não existe este registro."});
+          console.log(resultSet);
         }
 
         console.log("Do SQL:" + resultSet); // 3
@@ -459,6 +473,10 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existe este registro."});
+
           }
 
           con.release();
@@ -506,11 +524,11 @@ var crud = {
           if (error) throw error;
           console.log("Todas as fotos!");
 
-          var iterador = 0
+          if (results.length) {
+            resultSet = JSON.stringify(results);
 
-          while (iterador < results.length) {
-            resultSet.push(JSON.stringify(results[iterador]));
-            iterador++;
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existem registros."});
           }
 
           con.release();
@@ -586,6 +604,8 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existe este registro."});
           }
 
           con.release();
@@ -617,9 +637,11 @@ var crud = {
 
           var iterador = 0
 
-          while (iterador < results.length) {
-            resultSet.push(JSON.stringify(results[iterador]));
-            iterador++;
+          if (results.length) {
+            resultSet = JSON.stringify(results);
+
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existem registros."});
           }
 
           con.release();
@@ -696,6 +718,8 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existe este registro."});
           }
 
           con.release();
@@ -723,11 +747,11 @@ var crud = {
           if (error) throw error;
           console.log("Todos os orçamentos!");
 
-          var iterador = 0
+          if (results.length) {
+            resultSet = JSON.stringify(results);
 
-          while (iterador < results.length) {
-            resultSet.push(JSON.stringify(results[iterador]));
-            iterador++;
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existem registros."});
           }
 
           con.release();
@@ -801,6 +825,8 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+          } else {
+            resultSet = JSON.stringify( {"Erro": "Não existe este registro."} );
           }
 
           con.release();
@@ -828,11 +854,10 @@ var crud = {
           if (error) throw error;
           console.log("Todas as recomendações!");
 
-          var iterador = 0
-
-          while (iterador < results.length) {
-            resultSet.push(JSON.stringify(results[iterador]));
-            iterador++;
+          if (results.length) {
+            resultSet = JSON.stringify(results);
+          } else {
+            resultSet = JSON.stringify({"Erro": "Não existem registros."});
           }
 
           con.release();
@@ -905,6 +930,8 @@ var crud = {
 
           if (results.length) {
             resultSet = JSON.stringify(results[0]);
+          } else {
+            resultSet = JSON.stringify( {"Erro": "Não existe este registro."} );
           }
 
           con.release();
@@ -918,7 +945,7 @@ var crud = {
 
   },
 
-  consultarSolicitacoesOrcamentos: async function () {
+  consultarSolicitacoesOrcamentos: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -926,17 +953,18 @@ var crud = {
       pool.getConnection(function(err, con) {
         if (err) throw err; // not connected!
 
-        comando = "SELECT * FROM solicitacaoOrcamento";
+        comando = "SELECT `idSolicitacao`, `nome`, `bairro`, `tipo`, `descricao` FROM solicitacaoOrcamento " +
+          "INNER JOIN cliente ON solicitacaoOrcamento.cpfCliente = cliente.cpf" +
+          " WHERE `cpfAutonomo` = " + con.escape(dadosDeEntrada.cpfAutonomo);
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;
           console.log("Todas as solicitações!");
 
-          var iterador = 0
-
-          while (iterador < results.length) {
-            resultSet.push(JSON.stringify(results[iterador]));
-            iterador++;
+          if (results.length) {
+            resultSet = JSON.stringify(results);
+          } else {
+            resultSet = JSON.stringify( {"Erro": "Não existem registros."} );
           }
 
           con.release();

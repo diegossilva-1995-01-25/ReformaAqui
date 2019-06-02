@@ -39,6 +39,12 @@
           $('input[name="cpfCliente"]').val(cCpf);
           $('input[name="cpfAutonomo"]').val(url);
 
+          $.get("../autonomo/" + url, function (dados) {
+            var nomeAutonomo = dados.nome;
+            $("h1").append(nomeAutonomo);
+
+          });
+
         }
       });
 
@@ -63,7 +69,7 @@
     <br>
     <br>
 
-    <h1> Solicite um Orçamento a  </h1>
+    <h1> Solicite um Orçamento a </h1>
 
     <div class="formDiv">
 

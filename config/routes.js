@@ -195,6 +195,12 @@ app.get("/orcamento", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
+app.get("/orcamento/:idSolicitacao", function (req, res) {
+  usarEstaticos();
+  caminho = path.join(__dirname + '/../html/TelaOrcamento.html');
+  lerHtml(caminho, req, res);
+});
+
 app.get("/recomendacao/:cpf", function (req, res) {
   usarEstaticos();
   caminho = path.join(__dirname + '/../html/TelaRecomendacao.html');
@@ -213,10 +219,45 @@ app.get("/solicitacaoorcamento", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
-app.get("/solicitacaoorcamento/:cpfAutonomo", function (req, res) {
-  usarEstaticos();
-  caminho = path.join(__dirname + '/../html/TelaSolicitarOrcamento.html');
-  lerHtml(caminho, req, res);
+app.get("/solicitacaoorcamento/:cpfAutonomoOuIdSolicitacao", async function (req, res) {
+  var cookies = new Cookies(req, res);
+  var controllers = require(__dirname + '/../controller/facadeController.js');
+  var metOfReq = req.method;
+
+  var reqUrl = req.originalUrl.split("/");
+  console.log(reqUrl + " esta url");
+  var check = reqUrl[2];
+  reqUrl = reqUrl[1];
+
+  console.log("Check: " + check);
+
+  if (check == "all" && cookies.get('tipo') == "autonomo") {
+    var ent = {"dados": "Todos", "cpfAutonomo": cookies.get('cpf')};
+
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), ent);
+
+    console.log(retornado + " do ret");
+
+    res.send(retornado);
+    res.end();
+
+  } else if (cookies.get('cpf') != check) {
+    var ent = {"idSolicitacao": check};
+
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), ent);
+
+    console.log(retornado);
+
+    res.send(retornado);
+    res.end();
+
+  } else {
+    usarEstaticos();
+    caminho = path.join(__dirname + '/../html/TelaSolicitarOrcamento.html');
+    lerHtml(caminho, req, res);
+
+  }
+
 });
 
 app.get("/autonomo", function (req, res) {

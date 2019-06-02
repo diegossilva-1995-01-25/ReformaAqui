@@ -2,8 +2,9 @@
 var metodo = "";
 var nomeEntidade = "solicitacaoOrcamento";
 var dadosJSON = "";
+var obejetoRetorno;
 
-function pegarMetodoHttp(verbo, dadosEntrantes) {
+async function pegarMetodoHttp(verbo, dadosEntrantes) {
 
   const models = require(__dirname + '/../model/facadeModel.js');
 
@@ -19,6 +20,9 @@ function pegarMetodoHttp(verbo, dadosEntrantes) {
 
   } else if (verbo == 'GET' || verbo == 'get') {
     pegarGET();
+    obejetoRetorno = await models.callEntity(metodo, nomeEntidade, dadosJSON);
+
+    return obejetoRetorno;
 
   }
 

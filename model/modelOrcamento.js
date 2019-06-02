@@ -23,9 +23,16 @@ var orcamento = {
   },
 
   enviar: function (entradaJSON) {
-    dadosJSON = converterParaObjetoJSON(entradaJSON);
+    console.log(entradaJSON);
+    dadosJSON = entradaJSON;
     preencher(dadosJSON);
     console.log('Sendo enviado! ' + entradaJSON);
+
+    var clienteTemp;
+    var autonomoTemp;
+
+    clienteTemp = await sql.consultarCliente( { "cpf": entradaJSON.cpfCliente } );
+    autonomoTemp = await sql.consultarAutonomo( { "cpf": entradaJSON.cpfAutonomo } );
 
     // Usar nodemailer aqui
     // create reusable transporter object using the default SMTP transport
@@ -39,14 +46,42 @@ var orcamento = {
       }
     });
 
+    eCliente = clienteTemp.email;
+    eAutonomo = autonomoTemp.email;
+
     // send mail with defined transport object
-    let info = await configuracoes.sendMail({
+    let info1 = await configuracoes.sendMail({
       from: 'diegodareformaaqui@gmail.com', // sender address
-      to: "diego00023@gmail.com", // list of receivers
-      subject: "Hello", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>" // html body
+      to: eCliente, // list of receivers
+      subject: "Orçamento ao cliente " + entradaJSON.tipo, // Subject line
+      text: "Olá, " + autonomoTemp.nome + ": \n\n Teu orçamento foi enviado a " + clienteTemp.nome +
+        ". \nSe este aceitar, vai te contatar, e ele recebeu também uma cópia deste e-mail." +
+        " \n\nAtenciosamente \n\nDiego da ReformaAqui", // plain text body
+      html: "<b>Diego da ReformaAqui</b>" // html body
     });
+
+    // send mail with defined transport object
+    let info2 = await configuracoes.sendMail({
+      from: 'diegodareformaaqui@gmail.com', // sender address
+      to: eAutonomo, // list of receivers
+      subject: "Orçamento ao cliente " + entradaJSON.tipo, // Subject line
+      text: "Olá, " + autonomoTemp.nome + ": \n\n Teu orçamento foi enviado a " + clienteTemp.nome +
+        ". \nSe este aceitar, vai te contatar, e ele recebeu também uma cópia deste e-mail." +
+        " \n\nAtenciosamente \n\nDiego da ReformaAqui", // plain text body
+      html: "<b>Diego da ReformaAqui</b>" // html body
+    });
+
+    // send mail with defined transport object
+    let info3 = await configuracoes.sendMail({
+      from: 'diegodareformaaqui@gmail.com', // sender address
+      to: 'diegodareformaaqui@gmail.com', // list of receivers
+      subject: "Orçamento ao cliente " + entradaJSON.tipo, // Subject line
+      text: "Olá, " + autonomoTemp.nome + ": \n\n Teu orçamento foi enviado a " + clienteTemp.nome +
+        ". \nSe este aceitar, vai te contatar, e ele recebeu também uma cópia deste e-mail." +
+        " \n\nAtenciosamente \n\nDiego da ReformaAqui", // plain text body
+      html: "<b>Diego da ReformaAqui</b>" // html body
+    });
+
 
   },
 
