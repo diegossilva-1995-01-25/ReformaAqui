@@ -11,7 +11,7 @@ var orcamento = {
   tipo:           '',
   preco:           0,
   previsaoDias:    0,
-  status:         '',
+  situacao:         '',
 
   criar: function (entradaJSON) {
     console.log('Criado! ' + entradaJSON);
@@ -19,10 +19,10 @@ var orcamento = {
     preencher(dadosJSON);
     console.log(orcamento.tipo + " em formato Obj JSON");
     sql.criarOrcamento(orcamento);
-    enviar(entradaJSON);
+    //enviar(entradaJSON);
   },
 
-  enviar: function (entradaJSON) {
+  enviar: async function (entradaJSON) {
     console.log(entradaJSON);
     dadosJSON = entradaJSON;
     preencher(dadosJSON);
@@ -101,6 +101,20 @@ var orcamento = {
 
   },
 
+  visualizarTodos: async function (entradaJSON) {
+
+    var dadosJSON = converterParaObjetoJSON(entradaJSON);
+
+    var aux = await sql.consultarOrcamentos(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    return aux;
+
+  },
+
   aceitar: function (entradaJSON) {
     // Altera para pôr status como aceito
   },
@@ -132,7 +146,7 @@ function limpar() {
   orcamento.tipo = '';
   orcamento.preco = 0;
   orcamento.previsaoDias = 0;
-  orcamento.status = '';
+  orcamento.situacao = '';
 }
 
 function preencher(dados) {
@@ -145,7 +159,7 @@ function preencher(dados) {
   orcamento.tipo = dados.tipo;
   orcamento.preco = dados.preco;
   orcamento.previsaoDias = dados.previsaoDias;
-  orcamento.status = dados.status;
+  orcamento.situacao = dados.situacao;
 }
 
 module.exports = orcamento;

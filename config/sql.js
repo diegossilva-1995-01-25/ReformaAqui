@@ -733,7 +733,7 @@ var crud = {
 
   },
 
-  consultarOrcamentos: async function () {
+  consultarOrcamentos: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -741,7 +741,9 @@ var crud = {
       pool.getConnection(function(err, con) {
         if (err) throw err; // not connected!
 
-        comando = "SELECT * FROM orcamento";
+        comando = "SELECT `idOrcamento`, `nome`, `preco`, `previsaoDias`, `descricao` FROM orcamento "
+          + "INNER JOIN autonomo ON orcamento.cpfAutonomo = autonomo.cpf WHERE cpfCliente = "
+          + con.escape(dadosDeEntrada.cpfCliente);
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;

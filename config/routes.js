@@ -45,7 +45,13 @@ app.get("/aceitarorcamento", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
-app.get("/avaliacao", function (req, res) {
+app.get("/avaliacao/:data", function (req, res) {
+  usarEstaticos();
+  caminho = path.join(__dirname + '/../html/TelaAvaliacao.html');
+  lerHtml(caminho, req, res);
+});
+
+app.get("/avaliacao/:id/editar", function (req, res) {
   usarEstaticos();
   caminho = path.join(__dirname + '/../html/TelaAvaliacao.html');
   lerHtml(caminho, req, res);
@@ -193,6 +199,43 @@ app.get("/orcamento", function (req, res) {
   usarEstaticos();
   caminho = path.join(__dirname + '/../html/TelaOrcamento.html');
   lerHtml(caminho, req, res);
+});
+
+app.get("/orcamento/all", async function (req, res) {
+
+  var cookies = new Cookies(req, res);
+  var controllers = require(__dirname + '/../controller/facadeController.js');
+  var metOfReq = req.method;
+
+  var reqUrl = req.originalUrl.split("/");
+  console.log(reqUrl + " esta url");
+  var check = reqUrl[2];
+  reqUrl = reqUrl[1];
+
+  console.log("Check: " + check);
+
+  if (check == "all" && cookies.get('tipo') == "cliente") {
+    var ent = {"dados": "Todos", "cpfCliente": cookies.get('cpf')};
+
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), ent);
+
+    console.log(retornado + " do ret");
+
+    res.send(retornado);
+    res.end();
+
+  } else if (cookies.get('cpf') != check) {
+    var ent = {"idSolicitacao": check};
+
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), ent);
+
+    console.log(retornado);
+
+    res.send(retornado);
+    res.end();
+
+  }
+
 });
 
 app.get("/orcamento/:idSolicitacao", function (req, res) {

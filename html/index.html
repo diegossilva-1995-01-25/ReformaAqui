@@ -62,6 +62,7 @@
 
             });
 
+
             $.get("../solicitacaoorcamento/all", function (dados) {
 
               tabelaHTML = "";
@@ -97,7 +98,7 @@
             // Pegar todos os autonomos
             $.get("../autonomo/all", function (dados) {
 
-
+              tabelaHTML = "";
 
               tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Autônomos</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
                 " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> " +
@@ -120,6 +121,32 @@
               tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
 
               $("body").append(tabelaHTML);
+
+            });
+
+
+            $.get("../orcamento/all", function (dados) {
+              tabelaHTML = "";
+
+              tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Orçamentos Enviados</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
+                " <tr> <th> Cód Orçamento </th> <th> Nome Autônomo </th> <th> Preço </th> <th> Quantos Dias </th> <th> Descrição </th> " +
+                " <th> Ficou pronto? </th> </tr> </thead>" +
+                "<tbody>";
+
+                for (var i in dados) {
+                  tabelaHTML = tabelaHTML + " <tr>" +
+                    "<td>" + dados[i].idOrcamento + "</td>" +
+                    "<td>" + dados[i].nome + "</td>" +
+                    "<td>" + dados[i].preco + "</td>" +
+                    "<td>" + dados[i].previsaoDias + "</td>" +
+                    "<td>" + dados[i].descricao + "</td>" +
+                    "<td> <a href=\"../avaliacao/" + dados[i].idOrcamento + "\"> Avaliar Obra </a> </td> </tr>";
+
+                }
+
+                tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+
+                $("body").append(tabelaHTML);
 
             });
 

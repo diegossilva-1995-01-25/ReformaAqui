@@ -60,7 +60,14 @@
 
     <div class="formDiv">
 
-      <form>
+      <form id="formAvaliacao" action="../avaliacao" method="post">
+
+        <tr>
+          <td> <label class="nomeCampo"> Código do Orçamento </label> </td>
+          <td> <input type="number" name="idOrcamento" required readonly> </td>
+        </tr>
+
+        <br>
 
         <tr>
 
@@ -109,7 +116,7 @@
         <br>
         <tr>
 
-          <td> <label class="nomeCampo"> Descrição </label> </td> <td> <textarea name="descricaoAvaliacao" maxlength="255"></textarea> </td>
+          <td> <label class="nomeCampo"> Descrição </label> </td> <td> <textarea name="descricaoAvaliacao" maxlength="255" required></textarea> </td>
 
         </tr>
         <br>
