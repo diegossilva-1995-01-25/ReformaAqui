@@ -39,6 +39,20 @@ var recomendacao = {
 
   },
 
+  visualizarTodos: async function (entradaJSON) {
+    console.log(entradaJSON);
+    var dadosJSON = converterParaObjetoJSON(entradaJSON);
+
+    var aux = await sql.consultarRecomendacoes(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    return aux;
+
+  }
+
 };
 
 function converterParaObjetoJSON(jsonString) {

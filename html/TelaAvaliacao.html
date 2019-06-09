@@ -17,6 +17,12 @@
       var cEmail = vetorCookies[2];
       var cTipo = vetorCookies[3];
 
+      var url = $(location).attr('href');
+
+      var auxil = url.split("avaliacao/");
+
+      url = auxil[1];
+
       $(document).ready(function() {
 
         if (cNome != null && cNome != "") {
@@ -30,8 +36,54 @@
             .html("<label class=\"welcome\">Seja bem-vindo, " + cNome +
             " </label> <a class=\"welcome\" href=\"../" + cTipo + "\">Alterar</a> <a class=\"welcome\" href=\"../logoff\">Sair</a>");
 
+          $('input[name="idOrcamento"]').val(url);
+
         }
+
+        $("body").append("<div id=\"tema\">" +
+          "<span> " +
+          "<p>Selecione o tema:</p>" +
+          "<input type=\"button\" name=\"imgPedreiro\" value=\"Pedreiro\" onclick=\"mudarImgPedreiro()\">" +
+          "<input type=\"button\" name=\"imgEncanador\" value=\"Encanador\" onclick=\"mudarImgEncanador()\">" +
+          "<input type=\"button\" name=\"imgEletricista\" value=\"Eletricista\" onclick=\"mudarImgEletricista()\">" +
+          "<input type=\"button\" name=\"imgPintor\" value=\"Pintor\" onclick=\"mudarImgPintor()\">" +
+          "<input type=\"button\" name=\"imgCarpinteiro\" value=\"Carpinteiro\" onclick=\"mudarImgCarpinteiro()\">" +
+          "<input type=\"button\" name=\"imgPadrao\" value=\"Padrao\" onclick=\"mudarImgPadrao()\">" +
+          "</span> <br>" +
+          "<p> <b>By: Diego de Jesus Gregório, Diego Souza Silva e Gustavo Henrique de Freitas<b> </p>" +
+          "</footer>");
+
       });
+
+      function mudarImgPedreiro() {
+        document.body.style.backgroundImage = "url('../html/css/Tijolo.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgEncanador() {
+        document.body.style.backgroundImage = "url('../html/css/Cano.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgEletricista() {
+        document.body.style.backgroundImage = "url('../html/css/Conduite.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgPintor() {
+        document.body.style.backgroundImage = "url('../html/css/Tinta.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgCarpinteiro() {
+        document.body.style.backgroundImage = "url('../html/css/Madeira.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgPadrao() {
+        document.body.style.backgroundImage = "url('../html/css/tijolos-baiano.png')";
+        document.body.style.backgroundSize = "cover";
+      }
 
     </script>
 
@@ -76,33 +128,33 @@
           <td>
 
             <label class="stars">
-              <input type="radio" name="stars" value="1" />
+              <input type="radio" name="numEstrelas" value="1" />
               <span class="icon">★</span>
             </label>
 
             <label class="stars">
-              <input type="radio" name="stars" value="2" />
-              <span class="icon">★</span>
-              <span class="icon">★</span>
-            </label>
-
-            <label class="stars">
-              <input type="radio" name="stars" value="3" />
-              <span class="icon">★</span>
+              <input type="radio" name="numEstrelas" value="2" />
               <span class="icon">★</span>
               <span class="icon">★</span>
             </label>
 
             <label class="stars">
-              <input type="radio" name="stars" value="4" />
-              <span class="icon">★</span>
+              <input type="radio" name="numEstrelas" value="3" />
               <span class="icon">★</span>
               <span class="icon">★</span>
               <span class="icon">★</span>
             </label>
 
             <label class="stars">
-              <input type="radio" name="stars" value="5" />
+              <input type="radio" name="numEstrelas" value="4" />
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+              <span class="icon">★</span>
+            </label>
+
+            <label class="stars">
+              <input type="radio" name="numEstrelas" value="5" />
               <span class="icon">★</span>
               <span class="icon">★</span>
               <span class="icon">★</span>
@@ -116,7 +168,7 @@
         <br>
         <tr>
 
-          <td> <label class="nomeCampo"> Descrição </label> </td> <td> <textarea name="descricaoAvaliacao" maxlength="255" required></textarea> </td>
+          <td> <label class="nomeCampo"> Descrição </label> </td> <td> <textarea name="descricao" maxlength="255" required></textarea> </td>
 
         </tr>
         <br>

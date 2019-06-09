@@ -37,6 +37,20 @@ var avaliacao = {
 
     preencher(aux);
 
+  },
+
+  visualizarTodos: async function (entradaJSON) {
+    console.log(entradaJSON);
+    var dadosJSON = converterParaObjetoJSON(entradaJSON);
+
+    var aux = await sql.consultarAvaliacoes(dadosJSON);
+
+    console.log("Aux: " + aux); // 1
+
+    aux = JSON.parse(aux);
+
+    return aux;
+
   }
 
 };

@@ -45,10 +45,36 @@ app.get("/aceitarorcamento", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
-app.get("/avaliacao/:data", function (req, res) {
-  usarEstaticos();
-  caminho = path.join(__dirname + '/../html/TelaAvaliacao.html');
-  lerHtml(caminho, req, res);
+app.get("/avaliacao/:idOrcamento", async function (req, res) {
+
+  var retornado;
+  var cookies = new Cookies(req, res);
+
+  var cookieExiste = cookies.get('email');
+  var controllers = require(__dirname + '/../controller/facadeController.js');
+
+  var metOfReq = req.method;
+  var reqUrl = req.originalUrl.split("/");
+  var check = reqUrl[2];
+  reqUrl = reqUrl[1];
+
+  if (check == "all") {
+    var ent = {"dados": "Todos"};
+
+    retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), ent);
+
+    console.log("Ret: " + JSON.stringify(retornado));
+
+    res.send(retornado);
+    res.end();
+
+  } else {
+    usarEstaticos();
+    caminho = path.join(__dirname + '/../html/TelaAvaliacao.html');
+    lerHtml(caminho, req, res);
+
+  }
+
 });
 
 app.get("/avaliacao/:id/editar", function (req, res) {
@@ -244,6 +270,12 @@ app.get("/orcamento/:idSolicitacao", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
+app.get("/orcamento/:idSolicitacao/editar", function (req, res) {
+  usarEstaticos();
+  caminho = path.join(__dirname + '/../html/TelaOrcamento.html');
+  lerHtml(caminho, req, res);
+});
+
 app.get("/recomendacao/:cpf", function (req, res) {
   usarEstaticos();
   caminho = path.join(__dirname + '/../html/TelaRecomendacao.html');
@@ -300,6 +332,10 @@ app.get("/solicitacaoorcamento/:cpfAutonomoOuIdSolicitacao", async function (req
     lerHtml(caminho, req, res);
 
   }
+
+});
+
+app.get("/solicitacaoorcamento/:cpfAutonomoOuIdSolicitacao/editar", async function (req, res) {
 
 });
 
@@ -403,6 +439,10 @@ app.post("/avaliacao", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
+app.post("/avaliacao/:id", function (req, res) {
+
+});
+
 app.post("/aceitarorcamento", function (req, res) {
   usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
@@ -493,6 +533,10 @@ app.post("/orcamento", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
+app.post("/orcamento/:id", function (req, res) {
+
+});
+
 app.post("/recomendacao", function (req, res) {
   usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
@@ -504,6 +548,10 @@ app.post("/recomendacao", function (req, res) {
   lerHtml(caminho, req, res);
 });
 
+app.post("/recomendacao/:id", function (req, res) {
+
+});
+
 app.post("/solicitacaoorcamento", function (req, res) {
   usarEstaticos();
   var controllers = require(__dirname + '/../controller/facadeController.js');
@@ -513,6 +561,10 @@ app.post("/solicitacaoorcamento", function (req, res) {
   controllers.callController(metOfReq, reqUrl.substring(1), req.body);
   caminho = path.join(__dirname + '/../html/index.html');
   lerHtml(caminho, req, res);
+});
+
+app.post("/solicitacaoorcamento/:id", function (req, res) {
+
 });
 
 app.post("/comparar", function (req, res) {

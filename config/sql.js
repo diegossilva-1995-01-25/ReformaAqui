@@ -169,7 +169,11 @@ var crud = {
       pool.getConnection(function(err, con) {
         if (err) return reject(err); // not connected!
 
-        comando = "SELECT * FROM autonomo";
+        comando = "SELECT email, nome, bairro, AVG(numEstrelas) AS media, celular, funcaoPrimaria " +
+          "FROM autonomo " +
+          "INNER JOIN orcamento ON autonomo.cpf = orcamento.cpfAutonomo " +
+          "INNER JOIN avaliacao ON orcamento.idOrcamento = avaliacao.idOrcamento " +
+          "GROUP BY orcamento.cpfAutonomo";
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;
@@ -278,7 +282,10 @@ var crud = {
       pool.getConnection(function(err, con) {
         if (err) throw err; // not connected!
 
-        comando = "SELECT * FROM avaliacao";
+        comando = "SELECT avaliacao.idOrcamento, nome, bairro, tipo, numEstrelas FROM avaliacao " +
+          "INNER JOIN orcamento ON avaliacao.idOrcamento = orcamento.idOrcamento " +
+          "INNER JOIN cliente ON orcamento.cpfCliente = cliente.cpf " +
+          "WHERE cpfAutonomo = 12345678900";
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;

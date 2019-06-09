@@ -40,7 +40,7 @@
             $.get("../autonomo/all", function (dados) {
 
               tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Autônomos</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
-                " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> " +
+                " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Estrelas (1 à 5) </th> <th> Celular </th> <th> Função </th> " +
                 " </tr> </thead>" +
                 "<tbody>";
 
@@ -49,7 +49,7 @@
                   "<td>" + dados[i].email + "</td>" +
                   "<td>" + dados[i].nome + "</td>" +
                   "<td>" + dados[i].bairro + "</td>" +
-                  "<td>" + dados[i].telefone + "</td>" +
+                  "<td>" + dados[i].media + "</td>" +
                   "<td>" + dados[i].celular + "</td>" +
                   "<td>" + dados[i].funcaoPrimaria + "</td>" +
                   "</tr>";
@@ -91,6 +91,34 @@
 
             });
 
+            // Todas as avaliações que este autônomo recebeu
+            $.get("../avaliacao/all", function (dados) {
+
+              tabelaHTML = "";
+
+              tabelaHTML = tabelaHTML + " <br><br> <h2>Tuas Notas</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
+                " <tr> <th> Código do Orçamento </th> <th> Nome do Cliente </th> <th> Bairro do Cliente </th>" +
+                " <th> Tipo do Serviço </th> <th> Estrelas (De 1 à 5) </th> " +
+                " </tr> </thead>" +
+                "<tbody>";
+
+              for (var i in dados) {
+                tabelaHTML = tabelaHTML + " <tr>" +
+                  "<td>" + dados[i].idOrcamento + "</td>" +
+                  "<td>" + dados[i].nome + "</td>" +
+                  "<td>" + dados[i].bairro + "</td>" +
+                  "<td>" + dados[i].tipo + "</td>" +
+                  "<td>" + dados[i].numEstrelas + "</td>" +
+                  "</tr>";
+
+              }
+
+              tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+
+              $("body").append(tabelaHTML);
+
+            });
+
           // Sendo cliente, disponibiliza as solicitações de orçamentos
           } else {
             $("body").append("<div class=\"formDivTagA\"> <tr> <td> <a class=\"paraCliente\" href=\"../solicitacaoorcamento\">Solicitar orçamento</a> </tr> <br>");
@@ -101,7 +129,7 @@
               tabelaHTML = "";
 
               tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Autônomos</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
-                " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> " +
+                " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Estrelas (1 à 5) </th> <th> Celular </th> <th> Função </th> " +
                 " <th> Solicitar Orçamento </th> <th> Recomenda? </th> </tr> </thead>" +
                 "<tbody>";
 
@@ -110,7 +138,7 @@
                   "<td>" + dados[i].email + "</td>" +
                   "<td>" + dados[i].nome + "</td>" +
                   "<td>" + dados[i].bairro + "</td>" +
-                  "<td>" + dados[i].telefone + "</td>" +
+                  "<td>" + dados[i].media + "</td>" +
                   "<td>" + dados[i].celular + "</td>" +
                   "<td>" + dados[i].funcaoPrimaria + "</td>" +
                   "<td> <a href=\"../solicitacaoorcamento/" + dados[i].cpf + "\"> Solicite </a> </td>" +
@@ -160,7 +188,7 @@
             var tabelaHTML = "";
 
             tabelaHTML = tabelaHTML + " <br><br> <h2>Todos os Autônomos</h2> <div class=\"formDiv\"> <table class=\"tabela\"> <thead>" +
-              " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Telefone </th> <th> Celular </th> <th> Função </th> " +
+              " <tr> <th> E-mail </th> <th> Nome </th> <th> Bairro </th> <th> Estrelas (1 à 5) </th> <th> Celular </th> <th> Função </th> " +
               " </tr> </thead>" +
               "<tbody>";
 
@@ -169,7 +197,7 @@
                 "<td>" + dados[i].email + "</td>" +
                 "<td>" + dados[i].nome + "</td>" +
                 "<td>" + dados[i].bairro + "</td>" +
-                "<td>" + dados[i].telefone + "</td>" +
+                "<td>" + dados[i].media + "</td>" +
                 "<td>" + dados[i].celular + "</td>" +
                 "<td>" + dados[i].funcaoPrimaria + "</td>" +
                 "</tr>";
@@ -183,7 +211,50 @@
 
         }
 
+        $("body").append("<div id=\"tema\">" +
+          "<span> " +
+          "<p>Selecione o tema:</p>" +
+          "<input type=\"button\" name=\"imgPedreiro\" value=\"Pedreiro\" onclick=\"mudarImgPedreiro()\">" +
+          "<input type=\"button\" name=\"imgEncanador\" value=\"Encanador\" onclick=\"mudarImgEncanador()\">" +
+          "<input type=\"button\" name=\"imgEletricista\" value=\"Eletricista\" onclick=\"mudarImgEletricista()\">" +
+          "<input type=\"button\" name=\"imgPintor\" value=\"Pintor\" onclick=\"mudarImgPintor()\">" +
+          "<input type=\"button\" name=\"imgCarpinteiro\" value=\"Carpinteiro\" onclick=\"mudarImgCarpinteiro()\">" +
+          "<input type=\"button\" name=\"imgPadrao\" value=\"Padrao\" onclick=\"mudarImgPadrao()\">" +
+          "</span> <br>" +
+          "<p> <b>By: Diego de Jesus Gregório, Diego Souza Silva e Gustavo Henrique de Freitas<b> </p>" +
+          "</footer>");
+
       });
+
+      function mudarImgPedreiro() {
+        document.body.style.backgroundImage = "url('../html/css/Tijolo.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgEncanador() {
+        document.body.style.backgroundImage = "url('../html/css/Cano.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgEletricista() {
+        document.body.style.backgroundImage = "url('../html/css/Conduite.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgPintor() {
+        document.body.style.backgroundImage = "url('../html/css/Tinta.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgCarpinteiro() {
+        document.body.style.backgroundImage = "url('../html/css/Madeira.jpg')";
+        document.body.style.backgroundSize = "cover";
+      }
+
+      function mudarImgPadrao() {
+        document.body.style.backgroundImage = "url('../html/css/tijolos-baiano.png')";
+        document.body.style.backgroundSize = "cover";
+      }
 
     </script>
 
@@ -222,9 +293,6 @@
       Insira aqui a tabela com todos os autônomos ordenados pelo número de estrelas
       e se o cliente desejar, em tal bairro.
     -->
-
-
-
 
   </body>
 

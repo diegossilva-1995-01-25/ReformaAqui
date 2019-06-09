@@ -136,3 +136,13 @@ tbody {
   text-align: center;
   color: black;
 }
+
+#tema {
+  background-color: rgb(0, 115, 200);
+  text-align: center;
+  color: white;
+  font-family: "Arial", sans-serif;
+  font-size: 24px;
+  margin-bottom: 0px;
+  box-shadow: 5px 0px 10px 10px black;
+}
