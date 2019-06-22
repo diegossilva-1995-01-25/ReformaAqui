@@ -85,7 +85,10 @@ var autonomo = {
     // Login por CPF OU E-MAIL
     // Tem bug aqui
 
-    if(dadosJSON.senha != aux.senha) {
+    if (aux.senha == null) {
+      return { "Erro": "Autônomo não existe!" };
+
+    } else if(dadosJSON.senha != aux.senha) {
       console.log("Senha incorreta!");
       return "Senha incorreta!";
 

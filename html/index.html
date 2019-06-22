@@ -192,18 +192,26 @@
               " </tr> </thead>" +
               "<tbody>";
 
-            for (var i in dados) {
-              tabelaHTML = tabelaHTML + " <tr>" +
-                "<td>" + dados[i].email + "</td>" +
-                "<td>" + dados[i].nome + "</td>" +
-                "<td>" + dados[i].bairro + "</td>" +
-                "<td>" + dados[i].media + "</td>" +
-                "<td>" + dados[i].celular + "</td>" +
-                "<td>" + dados[i].funcaoPrimaria + "</td>" +
-                "</tr>";
-            }
+            if(dados.Erro != null) {
+              tabelaHTML = "";
+              tabelaHTML = "Não existem registros de autônomos!";
 
-            tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+            } else {
+
+              for (var i in dados) {
+                tabelaHTML = tabelaHTML + " <tr>" +
+                  "<td>" + dados[i].email + "</td>" +
+                  "<td>" + dados[i].nome + "</td>" +
+                  "<td>" + dados[i].bairro + "</td>" +
+                  "<td>" + dados[i].media + "</td>" +
+                  "<td>" + dados[i].celular + "</td>" +
+                  "<td>" + dados[i].funcaoPrimaria + "</td>" +
+                  "</tr>";
+              }
+
+              tabelaHTML = tabelaHTML + "</tbody> </table> </div>";
+
+            }
 
             $("body").append(tabelaHTML);
 

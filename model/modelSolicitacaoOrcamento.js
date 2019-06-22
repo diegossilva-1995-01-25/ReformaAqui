@@ -9,16 +9,18 @@ var solicitacaoOrcamento = {
   descricao:      '',
   tipo:           '',
 
-  criar: function (entradaJSON) {
+  criar: function (entradaJSON) { // async
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
     console.log(solicitacaoOrcamento.tipo + " em formato Obj JSON");
     sql.criarSolicitacaoOrcamento(solicitacaoOrcamento);
-    // solicitacaoOrcamento.enviar(solicitacaoOrcamento);
+    // var retornoEmail = await solicitacaoOrcamento.enviar(solicitacaoOrcamento);
   },
 
   enviar: async function (entradaJSON) {
+
+
     console.log(entradaJSON);
     dadosJSON = entradaJSON;
     preencher(dadosJSON);
@@ -46,7 +48,7 @@ var solicitacaoOrcamento = {
     eAutonomo = autonomoTemp.email;
 
     // send mail with defined transport object
-    let info1 = await configuracoes.sendMail({
+    var info1 = await configuracoes.sendMail({
       from: 'diegodareformaaqui@gmail.com', // sender address
       to: eCliente, // list of receivers
       subject: "Solicitação de serviços a um " + entradaJSON.tipo, // Subject line
@@ -57,7 +59,7 @@ var solicitacaoOrcamento = {
     });
 
     // send mail with defined transport object
-    let info2 = await configuracoes.sendMail({
+    var info2 = await configuracoes.sendMail({
       from: 'diegodareformaaqui@gmail.com', // sender address
       to: eAutonomo, // list of receivers
       subject: "Solicitação de serviços a um " + entradaJSON.tipo, // Subject line
@@ -68,7 +70,7 @@ var solicitacaoOrcamento = {
     });
 
     // send mail with defined transport object
-    let info3 = await configuracoes.sendMail({
+    var info3 = await configuracoes.sendMail({
       from: 'diegodareformaaqui@gmail.com', // sender address
       to: 'diegodareformaaqui@gmail.com', // list of receivers
       subject: "Solicitação de serviços a um " + entradaJSON.tipo, // Subject line
@@ -77,6 +79,8 @@ var solicitacaoOrcamento = {
         " \n\nAtenciosamente \n\nDiego da ReformaAqui", // plain text body
       html: "<b>Diego da ReformaAqui</b>" // html body
     });
+
+    return info1 + " ; " + info2 + " ; " + info3;
 
   },
 

@@ -73,7 +73,10 @@ var cliente = {
 
     console.log(dadosJSON.senha + " e " + aux.senha);
 
-    if(dadosJSON.senha == aux.senha) {
+    if (aux.senha == null) {
+      return { "Erro": "Cliente não existe!" };
+
+    } else if(dadosJSON.senha == aux.senha) {
       preencher(aux);
       console.log("Pre-Redirect: " + __dirname);
 

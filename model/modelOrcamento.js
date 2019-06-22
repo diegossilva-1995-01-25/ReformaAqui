@@ -13,13 +13,13 @@ var orcamento = {
   previsaoDias:    0,
   situacao:         '',
 
-  criar: function (entradaJSON) {
+  criar: function (entradaJSON) { // async
     console.log('Criado! ' + entradaJSON);
     dadosJSON = converterParaObjetoJSON(entradaJSON);
     preencher(dadosJSON);
     console.log(orcamento.tipo + " em formato Obj JSON");
     sql.criarOrcamento(orcamento);
-    //enviar(entradaJSON);
+    // var retornoEmail = await solicitacaoOrcamento.enviar(solicitacaoOrcamento);
   },
 
   enviar: async function (entradaJSON) {
@@ -82,6 +82,7 @@ var orcamento = {
       html: "<b>Diego da ReformaAqui</b>" // html body
     });
 
+    return info1 + " ; " + info2 + " ; " + info3;
 
   },
 

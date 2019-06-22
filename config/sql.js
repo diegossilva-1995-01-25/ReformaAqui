@@ -169,11 +169,13 @@ var crud = {
       pool.getConnection(function(err, con) {
         if (err) return reject(err); // not connected!
 
-        comando = "SELECT email, nome, bairro, AVG(numEstrelas) AS media, celular, funcaoPrimaria " +
+        comando = "SELECT cpf, email, nome, bairro, AVG(numEstrelas) AS media, celular, funcaoPrimaria " +
           "FROM autonomo " +
           "INNER JOIN orcamento ON autonomo.cpf = orcamento.cpfAutonomo " +
           "INNER JOIN avaliacao ON orcamento.idOrcamento = avaliacao.idOrcamento " +
-          "GROUP BY orcamento.cpfAutonomo";
+          "GROUP BY orcamento.cpfAutonomo " +
+          "UNION DISTINCT SELECT cpf, email, nome, bairro, 0 AS media, celular, funcaoPrimaria FROM autonomo " +
+          "WHERE cpf <> 0 ORDER BY media DESC"; // Buscar um modo de não trazer as linhas já trazidas na consulta com médias
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;
@@ -274,7 +276,7 @@ var crud = {
 
   },
 
-  consultarAvaliacoes: async function () {
+  consultarAvaliacoes: async function (dadosDeEntrada) {
 
     var resultSet = JSON.stringify("{}");
 
@@ -285,7 +287,7 @@ var crud = {
         comando = "SELECT avaliacao.idOrcamento, nome, bairro, tipo, numEstrelas FROM avaliacao " +
           "INNER JOIN orcamento ON avaliacao.idOrcamento = orcamento.idOrcamento " +
           "INNER JOIN cliente ON orcamento.cpfCliente = cliente.cpf " +
-          "WHERE cpfAutonomo = 12345678900";
+          "WHERE cpfAutonomo = " + con.escape(dadosDeEntrada.cpf);
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;
@@ -964,7 +966,7 @@ var crud = {
 
         comando = "SELECT `idSolicitacao`, `nome`, `bairro`, `tipo`, `descricao` FROM solicitacaoOrcamento " +
           "INNER JOIN cliente ON solicitacaoOrcamento.cpfCliente = cliente.cpf" +
-          " WHERE `cpfAutonomo` = " + con.escape(dadosDeEntrada.cpfAutonomo);
+          " WHERE `cpfAutonomo` = " + con.escape(dadosDeEntrada.cpfAutonomo) + "OR cpfAutonomo = 0";
 
         con.query(comando, function (error, results, fields) {
           if (error) throw error;

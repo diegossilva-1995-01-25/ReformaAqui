@@ -23,7 +23,7 @@ async function pegarMetodoHttp(verbo, dadosEntrantes) {
   } else if (verbo == 'GET' || verbo == 'get') {
     pegarGET();
     obejetoRetorno = await models.callEntity(metodo, nomeEntidade, dadosJSON);
-    
+
     return obejetoRetorno;
 
   }

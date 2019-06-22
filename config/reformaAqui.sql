@@ -136,3 +136,11 @@ ALTER TABLE `reformaaqui`.`foto`
 ADD FOREIGN KEY (idHistorico) REFERENCES historico(idHistorico)
 ON DELETE CASCADE
 ON UPDATE CASCADE;
+
+INSERT INTO `reformaaqui`.`autonomo` (
+`cpf`, `email`, `nome`, `endereco`, `bairro`,
+`telefone`, `celular`, `funcaoPrimaria`,
+`outrasFuncoes`, `pendencias`, `senha`) VALUES (
+0, 'diegodareformaaqui@gmail.com', 'Diego da ReformaAqui',
+'Sem endereço', 'guaianases', 1122222222, 11988888888,
+'pedreiro', NULL, 0, 'admin');

@@ -59,7 +59,7 @@ app.get("/avaliacao/:idOrcamento", async function (req, res) {
   reqUrl = reqUrl[1];
 
   if (check == "all") {
-    var ent = {"dados": "Todos"};
+    var ent = {"dados": "Todos", "cpf": cookies.get('cpf')};
 
     retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), ent);
 
@@ -316,6 +316,11 @@ app.get("/solicitacaoorcamento/:cpfAutonomoOuIdSolicitacao", async function (req
     res.send(retornado);
     res.end();
 
+  } else if (check.toString().length == 11) {
+    usarEstaticos();
+    caminho = path.join(__dirname + '/../html/TelaSolicitarOrcamento.html');
+    lerHtml(caminho, req, res);
+
   } else if (cookies.get('cpf') != check) {
     var ent = {"idSolicitacao": check};
 
@@ -488,15 +493,25 @@ app.post("/login/cliente", async function (req, res) {
   retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), req.body);
   console.log(retornado);
 
-  if(retornado != "Senha incorreta!") {
+  if(retornado.Erro != null) {
+    res.send(retornado);
+    res.end();
+
+  } else if (retornado == "Senha incorreta!" && retornado != "CPF incorreto!") {
+    res.send(retornado);
+    res.end();
+
+  } else {
     res.cookie('cpf', retornado.cpf, {maxAge: 30 * 60 * 1000});
     res.cookie('nome', retornado.nome, {maxAge: 30 * 60 * 1000});
     res.cookie('email', retornado.email, {maxAge: 30 * 60 * 1000});
     res.cookie('tipo', 'cliente', {maxAge: 30 * 60 * 1000});
+
+    caminho = path.join(__dirname + '/../html/index.html');
+    lerHtml(caminho, req, res);
+
   }
 
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
 });
 
 app.post("/login/autonomo", async function (req, res) {
@@ -511,15 +526,25 @@ app.post("/login/autonomo", async function (req, res) {
   retornado = await controllers.callController(metOfReq, reqUrl.replace("/", ""), req.body);
   console.log(retornado);
 
-  if(retornado != "Senha incorreta!" && retornado != "CPF incorreto!") {
+  if(retornado.Erro != null) {
+    res.send(retornado);
+    res.end();
+
+  } else if (retornado == "Senha incorreta!" && retornado != "CPF incorreto!") {
+    res.send(retornado);
+    res.end();
+
+  } else {
     res.cookie('cpf', retornado.cpf, {maxAge: 30 * 60 * 1000});
     res.cookie('nome', retornado.nome, {maxAge: 30 * 60 * 1000});
     res.cookie('email', retornado.email, {maxAge: 30 * 60 * 1000});
     res.cookie('tipo', 'autonomo', {maxAge: 30 * 60 * 1000});
+
+    caminho = path.join(__dirname + '/../html/index.html');
+    lerHtml(caminho, req, res);
+
   }
 
-  caminho = path.join(__dirname + '/../html/index.html');
-  lerHtml(caminho, req, res);
 });
 
 app.post("/orcamento", function (req, res) {
